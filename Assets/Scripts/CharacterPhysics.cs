@@ -36,6 +36,11 @@ public class CharacterPhysics : MonoBehaviour {
 		}
 		Debug.DrawRay(transform.position, acceleration * 5f, Color.red);
 		Debug.DrawRay(transform.position, characterRigidbody.velocity * 5f, Color.blue);
+		if (acceleration.x - acceleration.y > 0) {
+			characterRigidbody.rotation *= Quaternion.Euler(Vector3.forward * acceleration.magnitude);
+		} else {
+			characterRigidbody.rotation *= Quaternion.Euler(Vector3.back * acceleration.magnitude);
+		}
 	}
 
 	void OnCollisionEnter(Collision collision) {
@@ -45,12 +50,12 @@ public class CharacterPhysics : MonoBehaviour {
 	void UpdateColor() {
 		Color newColor;
 		if (StateControl.magneticPower < 0f) {
-			float offColor = 1f + 0.5f * StateControl.magneticPower;
+			float offColor = 1f + StateControl.magneticPower;
 			newColor = new Color(offColor, offColor, 1);
 		} else {
-			float offColor = 1f - 0.5f * StateControl.magneticPower;
+			float offColor = 1f - StateControl.magneticPower;
 			newColor = new Color(1, offColor, offColor);
 		}
-		GetComponent<MeshRenderer>().material.color = newColor;
+		GetComponentInChildren<ParticleSystem>().startColor = newColor;
 	}
 }

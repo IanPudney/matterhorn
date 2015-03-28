@@ -12,4 +12,10 @@ public class GoalContact : MonoBehaviour {
 	void Update () {
 	
 	}
+	
+	void OnCollisionEnter(Collision other) {
+		if (other.gameObject.GetComponent<CharacterPhysics>() != null) {
+			
+		}
+	}
 }

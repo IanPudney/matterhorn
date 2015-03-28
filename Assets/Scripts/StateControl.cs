@@ -23,18 +23,19 @@ public class StateControl : MonoBehaviour {
 	public Image magneticPolarityUIImage;
 	
 	public MagneticNodeCounter magneticNodeCounter;
+	public static bool levelWon = false;
 	
 	void Start () {
 		main = this;
 		magneticPower = magneticPowerStart;
 		state = State.drawing;
+		levelWon = false;
 	}
 
 	public static void BroadcastAll(string fun, System.Object msg) {
 		GameObject[] gos = (GameObject[])GameObject.FindObjectsOfType(typeof(GameObject));
 		foreach (GameObject go in gos) {
 			if (go) {
-				Debug.Log ("Broadcasting Message");
 				go.gameObject.BroadcastMessage(fun, msg, SendMessageOptions.DontRequireReceiver);
 			}
 		}
