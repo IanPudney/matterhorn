@@ -5,11 +5,13 @@ using System.Collections.Generic;
 public class CharacterPhysics : MonoBehaviour {
 	public List<MagnetWell> MagneticBodies;
 	Rigidbody characterRigidbody;
+	public Vector3 initialForce;
 	
 	void Start () {
 		if (characterRigidbody == null) {
 			characterRigidbody = GetComponent<Rigidbody>();
 		}
+		characterRigidbody.AddForce (initialForce);
 	}
 	
 	void FixedUpdate () {

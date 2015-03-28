@@ -31,7 +31,7 @@ public class MagnetWell : MonoBehaviour {
 	public Vector3 GetForce() {
 		float distance = Vector3.Distance(character.transform.position, transform.position);
 		Vector3 direction = (character.transform.position - transform.position).normalized;
-		Vector3 baseForce = direction * mass * StateControl.magneticPower / Mathf.Pow (distance, 2);
+		Vector3 baseForce = direction * mass * StateControl.magneticPower / Mathf.Pow (distance, 2f);
 		if (isPositive) {
 			return baseForce;
 		} else {

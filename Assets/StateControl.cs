@@ -12,11 +12,13 @@ public class StateControl : MonoBehaviour {
 	public bool toggleEnabled;
 	public static State state;
 	
-	public static float magneticPower = 0f;
+	public static float magneticPower;
+	public float magneticPowerStart;
 	public Text magneticDisplay;
 	
 	void Start () {
 		main = this;
+		magneticPower = magneticPowerStart;
 	}
 	
 	void Update() {
