@@ -9,44 +9,50 @@ public class MagnetWell : MonoBehaviour {
 	public float mass = 30f;
 	private float maxForce = 10f;
 	public float timer = 0f;
-
+	
+	public bool draggingThis = false;
+	public static bool draggingAny = false;
 	
 	public CharacterPhysics character;
 	
-	void Start() {
-		if (isPositive) {
-			GetComponent<MeshRenderer> ().material.color = Color.black;
+	void SetState(bool toPositive) {
+		if (toPositive) {
+			isPositive = true;
+			GetComponent<MeshRenderer> ().material.color = new Color(0.3f, 0.3f, 0.6f);
 			GetComponent<ParticleSystem> ().startColor = Color.blue;
 			GetComponent<ParticleSystem> ().maxParticles = 60;
 			GetComponent<ParticleSystem> ().emissionRate = 30;
 		} else {
-			GetComponent<MeshRenderer> ().material.color = Color.black;
-			GetComponent<ParticleSystem> ().startColor = new Color(1, 0, 0, 0.2f);
+			isPositive = false;
+			GetComponent<MeshRenderer> ().material.color = new Color(0.6f, 0.3f, 0.3f);
+			GetComponent<ParticleSystem> ().startColor = new Color(1f, 0, 0, 0.2f);
 			GetComponent<ParticleSystem> ().maxParticles = 30;
 			GetComponent<ParticleSystem> ().emissionRate = 15;
 		}
 	}
 
 	void Update () {
-		if (character == null) {
-			Debug.Log ("Character is null");
-			character = FindObjectOfType<CharacterPhysics>();
-			if (character == null) {
-				Debug.Log ("Character is STILL null, returning");
-				return;
-			}
-		}
-		character.AddWell(this);
-		
 		GenerateInfluenceBubbles();
+		if(draggingThis) {
+			if (!Input.GetMouseButton(0) && !Input.GetMouseButton(1)) {
+				ClickReleased();
+			}
+			transform.position = StateControl.GetMousePosition();
+		}
 	}
 	
 	float GetDistance() {
+		if (character == null) {
+			character = FindObjectOfType<CharacterPhysics>();
+			if (character == null) {
+				return float.MaxValue;
+			}
+		}
 		return Vector3.Distance(character.transform.position, transform.position);
 	}
 	
 	public Vector3 GetForce() {
-		float distance = Vector3.Distance(character.transform.position, transform.position);
+		float distance = GetDistance();
 		Vector3 direction = (character.transform.position - transform.position).normalized;
 		Vector3 baseForce = direction * mass * StateControl.magneticPower / Mathf.Pow (distance, 2f);
 		if (baseForce.magnitude > maxForce) {
@@ -85,5 +91,20 @@ public class MagnetWell : MonoBehaviour {
 		}
 	}
 
-
+	public void ClickedOn(bool leftClick) {
+		draggingThis = true;
+		draggingAny = true;
+		SetState (leftClick);
+	}
+	
+	public void ClickReleased() {
+		draggingThis = false;
+		GetComponent<MeshRenderer>().material.color = Color.black;
+		foreach (MagnetWell well in FindObjectsOfType<MagnetWell>()) {
+			if (well.draggingThis) {
+				return;
+			}
+		}
+		draggingAny = false;
+	}
 }

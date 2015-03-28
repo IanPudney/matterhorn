@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class MagneticNodeCounter : MonoBehaviour {
-	public int maxNodes;
+	public int maxNodes = 5;
 	int magneticNodes;
 	
 	void Start () {
@@ -23,5 +23,12 @@ public class MagneticNodeCounter : MonoBehaviour {
 		} else {
 			return false;
 		}
-	} 
+	}
+	
+	public void ClearNodes() {
+		foreach (MagnetWell well in FindObjectsOfType<MagnetWell>()) {
+			Destroy (well.gameObject);
+		}
+		Start ();
+	}
 }

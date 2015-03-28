@@ -23,7 +23,6 @@ public class StateControl : MonoBehaviour {
 	public Image magneticPolarityUIImage;
 	
 	public MagneticNodeCounter magneticNodeCounter;
-	public bool nodeSelected = false;
 	
 	void Start () {
 		main = this;
@@ -44,7 +43,6 @@ public class StateControl : MonoBehaviour {
 	void Update() {
 		if (state == State.drawing) {
 			DrawUpdate();
-			UpdateImageDisplay();
 		} else if (state == State.launching) {
 			LaunchUpdate();
 			UpdateTextDisplay();
@@ -58,27 +56,35 @@ public class StateControl : MonoBehaviour {
 	}
 	
 	void DrawUpdate() {
-		if (Input.GetMouseButtonDown(1)) {
-			polarityIsPositive = !polarityIsPositive;
-		}
 		if (magneticNodeCounter == null) {
 			magneticNodeCounter = FindObjectOfType<MagneticNodeCounter>();
 			if (magneticNodeCounter == null) {
 				return;
 			}
 		}
-		
-		if (Input.GetMouseButtonDown(0) && magneticNodeCounter.addNode()) {
-			Vector3 mousePosition = GetMousePosition();
-			GameObject newMagnetWell = Instantiate(magnetWellPrefab) as GameObject;
-			newMagnetWell.transform.position = mousePosition;
-			newMagnetWell.GetComponent<MagnetWell>().isPositive = polarityIsPositive;
-			if (polarityIsPositive) {
-				newMagnetWell.GetComponent<MeshRenderer>().material.color = new Color(0.7f, 0.7f, 1);
-			} else {
-				newMagnetWell.GetComponent<MeshRenderer>().material.color = new Color(1, 0.7f, 0.7f);
+		if (Input.GetMouseButtonDown(0)) {
+			DrawClick(true);
+		} else if (Input.GetMouseButtonDown(1)) {
+			DrawClick(false);	
+		}
+	}
+	
+	void DrawClick(bool leftClick) {
+		Vector3 mousePosition = GetMousePosition();
+		foreach (MagnetWell well in FindObjectsOfType<MagnetWell>()) {
+			if (Vector3.Distance(well.transform.position, mousePosition) < 1f) {
+				well.ClickedOn(leftClick);
+				return;
 			}
 		}
+		if (!magneticNodeCounter.addNode()) {
+			return;
+		}
+		GameObject newMagnetWell = Instantiate(magnetWellPrefab) as GameObject;
+		newMagnetWell.transform.position = mousePosition;
+		newMagnetWell.GetComponent<MagnetWell>().isPositive = !leftClick;
+			//Makes sure it is opposite so that initialization happens properly
+		newMagnetWell.GetComponent<MagnetWell>().ClickedOn(leftClick);
 	}
 	
 	void LaunchUpdate() {
@@ -92,24 +98,6 @@ public class StateControl : MonoBehaviour {
 
 		if (Input.GetKeyDown ("space")) {
 			magneticPower = -magneticPower;
-		}
-
-	}
-	
-	void UpdateImageDisplay() {
-		if (magneticPolarityUIImage == null) {
-			magneticPolarityUIImage = GameObject.FindGameObjectWithTag("MagneticPolarityIcon").GetComponent<Image>();
-			if (magneticPolarityUIImage == null) {
-				return;
-			}
-			magneticPolarityUIText = magneticPolarityUIImage.GetComponentInChildren<Text>();
-		}
-		if (polarityIsPositive) {
-			magneticPolarityUIImage.color = Color.blue;
-			magneticPolarityUIText.text = "+";
-		} else {
-			magneticPolarityUIImage.color = Color.red;
-			magneticPolarityUIText.text = "-";
 		}
 	}
 	
