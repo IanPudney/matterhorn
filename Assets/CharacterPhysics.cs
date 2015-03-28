@@ -10,7 +10,7 @@ public class CharacterPhysics : MonoBehaviour {
 		if (characterRigidbody == null) {
 			characterRigidbody = GetComponent<Rigidbody>();
 		}
-		characterRigidbody.AddForce(150f * Vector3.right);
+		characterRigidbody.AddForce(500f * Vector3.right);
 	}
 	
 	void FixedUpdate () {
@@ -35,5 +35,9 @@ public class CharacterPhysics : MonoBehaviour {
 		float distance = Vector3.Distance(well.transform.position, transform.position);
 		Vector2 direction = (well.transform.position - transform.position).normalized;
 		return direction * well.mass * GravityWell.gravitationalConstant / Mathf.Pow (distance, 2);
+	}
+
+	void OnCollisionEnter(Collision collision) {
+		Debug.Log ("Game Over");
 	}
 }

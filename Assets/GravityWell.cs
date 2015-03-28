@@ -23,8 +23,7 @@ public class GravityWell : MonoBehaviour {
 				return;
 			}
 		}
-		
-		print (GetDistance());
+
 		if (!disabled) {
 			if (!active) {
 				if (GetDistance() < activationDistance) {
