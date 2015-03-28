@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class StateControl : MonoBehaviour {
 	public static StateControl main;
+
 	public enum State {
 		drawing,
 		launching
@@ -28,22 +29,30 @@ public class StateControl : MonoBehaviour {
 		main = this;
 		magneticPower = magneticPowerStart;
 	}
-	
-	void Update() {
-		if (Input.GetKeyDown(KeyCode.Space)) {
-			if (state == State.drawing) {
-				state = State.launching;
-			} else if (state == State.launching) {
-				state = State.drawing;
+
+	public static void BroadcastAll(string fun, System.Object msg) {
+		GameObject[] gos = (GameObject[])GameObject.FindObjectsOfType(typeof(GameObject));
+		foreach (GameObject go in gos) {
+			if (go) {
+				Debug.Log ("Broadcasting Message");
+				go.gameObject.BroadcastMessage(fun, msg, SendMessageOptions.DontRequireReceiver);
 			}
 		}
-		
+	}
+	
+	void Update() {
 		if (state == State.drawing) {
 			DrawUpdate();
 			UpdateImageDisplay();
 		} else if (state == State.launching) {
 			LaunchUpdate();
 			UpdateTextDisplay();
+		}
+
+		if (Input.GetKeyDown(KeyCode.Space)) {
+			state = State.drawing;
+
+			BroadcastAll ("OnGameStart",null);
 		}
 	}
 	
