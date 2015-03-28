@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class StateControl : MonoBehaviour {
 	public static StateControl main;
+	public int currentRoom;
 
 	public enum State {
 		drawing,
