@@ -8,11 +8,18 @@ public class CharacterPhysics : MonoBehaviour {
 	public Vector3 initialForce;
 	
 	Vector3 velocity, acceleration;
+	RigidbodyConstraints initialConstraints;
 	
 	void Start () {
 		if (characterRigidbody == null) {
 			characterRigidbody = GetComponent<Rigidbody>();
+			initialConstraints = characterRigidbody.constraints;
+			characterRigidbody.constraints = RigidbodyConstraints.FreezeAll;
 		}
+	}
+
+	void OnGameStart() {
+		characterRigidbody.constraints = initialConstraints;
 		characterRigidbody.AddForce (initialForce);
 	}
 	
