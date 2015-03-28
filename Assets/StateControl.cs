@@ -62,15 +62,18 @@ public class StateControl : MonoBehaviour {
 	}
 	
 	void LaunchUpdate() {
-		if (Input.GetKey(KeyCode.A)) {
+		if (Input.GetKeyDown (KeyCode.A)) {
 			magneticPower = -1f;
-		}
-		else if (Input.GetKey(KeyCode.D)) {
+		} else if (Input.GetKeyDown (KeyCode.D)) {
 			magneticPower = 1f;
-		}
-		else {
+		} else if (Input.GetKeyDown (KeyCode.S)) {
 			magneticPower = 0f;
 		}
+
+		if (Input.GetKeyDown ("space")) {
+			magneticPower = -magneticPower;
+		}
+
 	}
 	
 	void UpdateImageDisplay() {
