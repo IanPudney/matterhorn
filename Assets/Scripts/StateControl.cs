@@ -46,8 +46,8 @@ public class StateControl : MonoBehaviour {
 			UpdateTextDisplay();
 		}
 
-		if (Input.GetKeyDown(KeyCode.Space)) {
-			state = State.drawing;
+		if (Input.GetKeyDown(KeyCode.Space) && state == State.drawing) {
+			state = State.launching;
 
 			BroadcastAll ("OnGameStart",null);
 		}
