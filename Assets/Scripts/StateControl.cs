@@ -28,6 +28,7 @@ public class StateControl : MonoBehaviour {
 	void Start () {
 		main = this;
 		magneticPower = magneticPowerStart;
+		state = State.drawing;
 	}
 
 	public static void BroadcastAll(string fun, System.Object msg) {
