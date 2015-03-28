@@ -21,6 +21,9 @@ public class StateControl : MonoBehaviour {
 	public Text magneticPolarityUIText;
 	public Image magneticPolarityUIImage;
 	
+	public MagneticNodeCounter magneticNodeCounter;
+	public bool nodeSelected = false;
+	
 	void Start () {
 		main = this;
 		magneticPower = magneticPowerStart;
@@ -48,7 +51,14 @@ public class StateControl : MonoBehaviour {
 		if (Input.GetMouseButtonDown(1)) {
 			polarityIsPositive = !polarityIsPositive;
 		}
-		if (Input.GetMouseButtonDown(0)) {
+		if (magneticNodeCounter == null) {
+			magneticNodeCounter = FindObjectOfType<MagneticNodeCounter>();
+			if (magneticNodeCounter == null) {
+				return;
+			}
+		}
+		
+		if (Input.GetMouseButtonDown(0) && magneticNodeCounter.addNode()) {
 			Vector3 mousePosition = GetMousePosition();
 			GameObject newMagnetWell = Instantiate(magnetWellPrefab) as GameObject;
 			newMagnetWell.transform.position = mousePosition;
