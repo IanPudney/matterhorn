@@ -13,6 +13,8 @@ public class SlidingWallMove : MonoBehaviour {
 
 	private Vector3 velocityVector;
 
+	private Vector3 backupPosition;
+
 	Rigidbody wallRigidBody;
 
 	// Use this for initialization
@@ -27,6 +29,15 @@ public class SlidingWallMove : MonoBehaviour {
 
 	void OnGameStart() {
 		velocityVector = new Vector3 (0, velocity, 0);
+	}
+
+	void BackupState() {
+		backupPosition = wall.transform.localPosition;
+	}
+
+	void RestoreState() {
+		velocityVector = Vector3.zero;
+		wall.transform.localPosition = backupPosition;
 	}
 
 	void setHeight(float height) {
