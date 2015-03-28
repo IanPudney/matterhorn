@@ -6,8 +6,8 @@ public class MagnetWell : MonoBehaviour {
 	
 	public bool isPositive;
 	
-	public float mass;
-	
+	private float mass = 5f;
+	private float maxForce = 10f;
 	public float timer = 0f;
 	
 	public CharacterPhysics character;
@@ -32,29 +32,36 @@ public class MagnetWell : MonoBehaviour {
 		float distance = Vector3.Distance(character.transform.position, transform.position);
 		Vector3 direction = (character.transform.position - transform.position).normalized;
 		Vector3 baseForce = direction * mass * StateControl.magneticPower / Mathf.Pow (distance, 2f);
+		if (baseForce.magnitude > maxForce) {
+			baseForce = baseForce.normalized * maxForce;
+		}
 		if (isPositive) {
-			return baseForce;
-		} else {
 			return -baseForce;
+		} else {
+			return baseForce;
 		}
 	}
 	
 	void GenerateInfluenceBubbles() {
 		timer += Time.deltaTime;
 		float power = Mathf.Abs (StateControl.magneticPower);
-		if (timer > (1.2f - power)) {
-			timer -= (1.2f - power);
+		if (timer > (0.5f - power)) {
+			timer -= 0.5f;
 			GameObject magnetWave;
-			if (StateControl.magneticPower > 0f) {
+			if ((StateControl.magneticPower > 0f) != (isPositive)) {	//XOR
 				magnetWave = Instantiate(positiveWavePrefab) as GameObject;
 			} else {
 				magnetWave = Instantiate(negativeWavePrefab) as GameObject;
 			}
 			magnetWave.transform.parent = transform;
 			magnetWave.transform.localPosition = Vector3.zero;
-			magnetWave.GetComponent<MagneticWave>().maxRadius = 1f + 2f * power;
-			magnetWave.GetComponent<MagneticWave>().deathTime = (1.2f - power);
-			
+			magnetWave.GetComponent<MagneticWave>().maxRadius = 1f + 4f * power;
+			magnetWave.GetComponent<MagneticWave>().deathTime = 1.5f;
+			if (isPositive) {
+				magnetWave.GetComponent<MeshRenderer>().material.color = Color.blue;
+			} else {
+				magnetWave.GetComponent<MeshRenderer>().material.color = Color.red;
+			}
 		}
 	}
 }
