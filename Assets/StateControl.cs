@@ -12,7 +12,7 @@ public class StateControl : MonoBehaviour {
 	public bool toggleEnabled;
 	public static State state;
 	
-	public float magneticPower = -0.5f;
+	public static float magneticPower = -0.5f;
 	public Text magneticDisplay;
 	
 	void Start () {
@@ -26,6 +26,13 @@ public class StateControl : MonoBehaviour {
 		}
 		
 		UpdateDisplay();
+		
+		if (Input.GetKeyDown(KeyCode.A)) {
+			magneticPower -= 0.1f;
+		}
+		if (Input.GetKeyDown(KeyCode.D)) {
+			magneticPower += 0.1f;
+		}
 	}
 	
 	void UpdateDisplay() {

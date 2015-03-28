@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class CharacterPhysics : MonoBehaviour {
-	public List<GravityWell> GravitationalBodies;
+	public List<MagnetWell> MagneticBodies;
 	Rigidbody characterRigidbody;
 	
 	void Start () {
@@ -17,23 +17,16 @@ public class CharacterPhysics : MonoBehaviour {
 		UpdateTrajectory();
 	}
 	
-	public void AddWell(GravityWell well) {
-		GravitationalBodies.Add(well);
-	}
-	
-	public void RemoveWell(GravityWell well) {
-		GravitationalBodies.Remove(well);
-	}
-	
-	void UpdateTrajectory() {
-		foreach(GravityWell well in GravitationalBodies) {
-			GetComponent<Rigidbody>().AddForce(GetForce(well));
+	public void AddWell(MagnetWell well) {
+		if (!MagneticBodies.Contains(well)) {
+			MagneticBodies.Add(well);
 		}
 	}
 	
-	Vector3 GetForce(GravityWell well) {
-		float distance = Vector3.Distance(well.transform.position, transform.position);
-		Vector2 direction = (well.transform.position - transform.position).normalized;
-		return direction * well.mass * GravityWell.gravitationalConstant / Mathf.Pow (distance, 2);
+	void UpdateTrajectory() {
+		foreach(MagnetWell well in MagneticBodies) {
+			GetComponent<Rigidbody>().AddForce(well.GetForce());
+			print (well.GetForce());
+		}
 	}
 }
