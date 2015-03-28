@@ -9,19 +9,23 @@ public class MagnetWell : MonoBehaviour {
 	public float mass = 30f;
 	private float maxForce = 10f;
 	public float timer = 0f;
-
+	
+	public bool draggingThis = false;
+	public static bool draggingAny = false;
 	
 	public CharacterPhysics character;
 	
-	void Start() {
-		if (isPositive) {
-			GetComponent<MeshRenderer> ().material.color = Color.black;
+	void SetState(bool toPositive) {
+		if (toPositive) {
+			isPositive = true;
+			GetComponent<MeshRenderer> ().material.color = new Color(0.3f, 0.3f, 0.6f);
 			GetComponent<ParticleSystem> ().startColor = Color.blue;
 			GetComponent<ParticleSystem> ().maxParticles = 60;
 			GetComponent<ParticleSystem> ().emissionRate = 30;
 		} else {
-			GetComponent<MeshRenderer> ().material.color = Color.black;
-			GetComponent<ParticleSystem> ().startColor = new Color(1, 0, 0, 0.2f);
+			isPositive = false;
+			GetComponent<MeshRenderer> ().material.color = new Color(0.6f, 0.3f, 0.3f);
+			GetComponent<ParticleSystem> ().startColor = new Color(1f, 0, 0, 0.2f);
 			GetComponent<ParticleSystem> ().maxParticles = 30;
 			GetComponent<ParticleSystem> ().emissionRate = 15;
 		}
@@ -35,8 +39,13 @@ public class MagnetWell : MonoBehaviour {
 			}
 		}
 		character.AddWell(this);
-		
 		GenerateInfluenceBubbles();
+		if(draggingThis) {
+			if (!Input.GetMouseButton(0) && !Input.GetMouseButton(1)) {
+				ClickReleased();
+			}
+			transform.position = StateControl.GetMousePosition();
+		}
 	}
 	
 	float GetDistance() {
@@ -83,5 +92,20 @@ public class MagnetWell : MonoBehaviour {
 		}
 	}
 
-
+	public void ClickedOn(bool leftClick) {
+		draggingThis = true;
+		draggingAny = true;
+		SetState (leftClick);
+	}
+	
+	public void ClickReleased() {
+		draggingThis = false;
+		GetComponent<MeshRenderer>().material.color = Color.black;
+		foreach (MagnetWell well in FindObjectsOfType<MagnetWell>()) {
+			if (well.draggingThis) {
+				return;
+			}
+		}
+		draggingAny = false;
+	}
 }

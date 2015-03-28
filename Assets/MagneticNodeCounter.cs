@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class MagneticNodeCounter : MonoBehaviour {
-	public int maxNodes;
+	public int maxNodes = 5;
 	int magneticNodes;
 	
 	void Start () {
