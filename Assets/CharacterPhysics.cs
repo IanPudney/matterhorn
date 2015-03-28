@@ -44,11 +44,11 @@ public class CharacterPhysics : MonoBehaviour {
 	
 	void UpdateColor() {
 		Color newColor;
-		if (StateControl.magneticPower > 0f) {
-			float offColor = 1f - 0.5f * StateControl.magneticPower;
+		if (StateControl.magneticPower < 0f) {
+			float offColor = 1f + 0.5f * StateControl.magneticPower;
 			newColor = new Color(offColor, offColor, 1);
 		} else {
-			float offColor = 1f + 0.5f * StateControl.magneticPower;
+			float offColor = 1f - 0.5f * StateControl.magneticPower;
 			newColor = new Color(1, offColor, offColor);
 		}
 		GetComponent<MeshRenderer>().material.color = newColor;
