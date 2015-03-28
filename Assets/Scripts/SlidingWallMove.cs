@@ -58,7 +58,7 @@ public class SlidingWallMove : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		wall.transform.position += velocityVector * Time.deltaTime;
+		wall.transform.localPosition += velocityVector * Time.deltaTime;
 	}
 
 	public void ReverseDirection() {

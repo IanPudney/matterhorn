@@ -29,8 +29,10 @@ public class MagnetWell : MonoBehaviour {
 
 	void Update () {
 		if (character == null) {
+			Debug.Log ("Character is null");
 			character = FindObjectOfType<CharacterPhysics>();
 			if (character == null) {
+				Debug.Log ("Character is STILL null, returning");
 				return;
 			}
 		}
