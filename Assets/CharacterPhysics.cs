@@ -10,7 +10,7 @@ public class CharacterPhysics : MonoBehaviour {
 		if (characterRigidbody == null) {
 			characterRigidbody = GetComponent<Rigidbody>();
 		}
-		characterRigidbody.AddForce(150f * Vector3.right);
+		characterRigidbody.AddForce(500f * Vector3.right);
 	}
 	
 	void FixedUpdate () {
@@ -28,5 +28,9 @@ public class CharacterPhysics : MonoBehaviour {
 			GetComponent<Rigidbody>().AddForce(well.GetForce());
 			print (well.GetForce());
 		}
+	}
+
+	void OnCollisionEnter(Collision collision) {
+		Debug.Log ("Game Over");
 	}
 }
