@@ -23,5 +23,12 @@ public class MagneticNodeCounter : MonoBehaviour {
 		} else {
 			return false;
 		}
-	} 
+	}
+	
+	public void ClearNodes() {
+		foreach (MagnetWell well in FindObjectsOfType<MagnetWell>()) {
+			Destroy (well.gameObject);
+		}
+		Start ();
+	}
 }
