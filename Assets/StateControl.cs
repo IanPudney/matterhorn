@@ -9,17 +9,21 @@ public class StateControl : MonoBehaviour {
 		launching
 	};
 	public static State state;
-	
+
+	public static float magneticPower;
+	public float magneticPowerStart;
+	public Text magneticDisplay;
+
 	public GameObject magnetWellPrefab;
 	public static bool polarityIsPositive;
-	
-	public static float magneticPower = 0f;
+
 	public Text magneticStrengthUIText;
 	public Text magneticPolarityUIText;
 	public Image magneticPolarityUIImage;
 	
 	void Start () {
 		main = this;
+		magneticPower = magneticPowerStart;
 	}
 	
 	void Update() {
@@ -58,15 +62,18 @@ public class StateControl : MonoBehaviour {
 	}
 	
 	void LaunchUpdate() {
-		if (Input.GetKey(KeyCode.A)) {
+		if (Input.GetKeyDown (KeyCode.A)) {
 			magneticPower = -1f;
-		}
-		else if (Input.GetKey(KeyCode.D)) {
+		} else if (Input.GetKeyDown (KeyCode.D)) {
 			magneticPower = 1f;
-		}
-		else {
+		} else if (Input.GetKeyDown (KeyCode.S)) {
 			magneticPower = 0f;
 		}
+
+		if (Input.GetKeyDown ("space")) {
+			magneticPower = -magneticPower;
+		}
+
 	}
 	
 	void UpdateImageDisplay() {

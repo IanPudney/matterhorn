@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class CharacterPhysics : MonoBehaviour {
 	public List<MagnetWell> MagneticBodies;
 	Rigidbody characterRigidbody;
+	public Vector3 initialForce;
 	
 	Vector3 velocity, acceleration;
 	
@@ -12,6 +13,7 @@ public class CharacterPhysics : MonoBehaviour {
 		if (characterRigidbody == null) {
 			characterRigidbody = GetComponent<Rigidbody>();
 		}
+		characterRigidbody.AddForce (initialForce);
 	}
 	
 	void FixedUpdate () {
