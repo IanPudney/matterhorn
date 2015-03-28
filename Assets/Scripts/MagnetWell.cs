@@ -15,9 +15,15 @@ public class MagnetWell : MonoBehaviour {
 	
 	void Start() {
 		if (isPositive) {
-			GetComponent<MeshRenderer> ().material.color = Color.blue;
+			GetComponent<MeshRenderer> ().material.color = Color.black;
+			GetComponent<ParticleSystem> ().startColor = Color.blue;
+			GetComponent<ParticleSystem> ().maxParticles = 60;
+			GetComponent<ParticleSystem> ().emissionRate = 30;
 		} else {
-			GetComponent<MeshRenderer> ().material.color = Color.red;
+			GetComponent<MeshRenderer> ().material.color = Color.black;
+			GetComponent<ParticleSystem> ().startColor = new Color(1, 0, 0, 0.2f);
+			GetComponent<ParticleSystem> ().maxParticles = 30;
+			GetComponent<ParticleSystem> ().emissionRate = 15;
 		}
 	}
 
@@ -54,8 +60,11 @@ public class MagnetWell : MonoBehaviour {
 	void GenerateInfluenceBubbles() {
 		timer += Time.deltaTime;
 		float power = Mathf.Abs (StateControl.magneticPower);
-		if (timer > (0.5f - power)) {
-			timer -= 0.5f;
+		if (timer > 0.65f) {
+			timer -= 0.65f;
+			if (StateControl.magneticPower == 0f) {
+				return;
+			}
 			GameObject magnetWave;
 			if ((StateControl.magneticPower > 0f) != (isPositive)) {	//XOR
 				magnetWave = Instantiate(positiveWavePrefab) as GameObject;
@@ -63,14 +72,13 @@ public class MagnetWell : MonoBehaviour {
 				magnetWave = Instantiate(negativeWavePrefab) as GameObject;
 			}
 			magnetWave.transform.parent = transform;
-			magnetWave.transform.localPosition = new Vector3(0f, 10f, 0f);
-			magnetWave.GetComponent<MagneticWave>().maxRadius = 1f + 4f * power;
-			magnetWave.GetComponent<MagneticWave>().deathTime = 1.5f;
+			magnetWave.transform.localPosition = Vector3.zero;
+			magnetWave.GetComponent<MagneticWave>().maxRadius = 4.5f * power;
+			magnetWave.GetComponent<MagneticWave>().deathTime = 2.25f;
 			if (isPositive) {
-
-				magnetWave.GetComponent<MeshRenderer>().material.color = new Color(0, 0, 255, 128);
+				magnetWave.GetComponent<SpriteRenderer>().material.color = new Color(0, 0, 1f, 0.5f);
 			} else {
-				magnetWave.GetComponent<MeshRenderer>().material.color = new Color(255, 0, 0, 128);
+				magnetWave.GetComponent<SpriteRenderer>().material.color = new Color(1f, 0, 0, 0.5f);
 			}
 		}
 	}
