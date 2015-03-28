@@ -8,7 +8,7 @@ public class SlidingWallMove : MonoBehaviour {
 	public GameObject endpieceTwo;
 	public float velocity = 3f;
 	public float height = 2f;
-	public float travel = 20f;
+	public float travel = 10f;
 	public float startPosition = 5f;
 
 	private Vector3 velocityVector;
