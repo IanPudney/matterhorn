@@ -9,9 +9,18 @@ public class MagnetWell : MonoBehaviour {
 	public float mass = 30f;
 	private float maxForce = 10f;
 	public float timer = 0f;
+
 	
 	public CharacterPhysics character;
 	
+	void Start() {
+		if (isPositive) {
+			GetComponent<MeshRenderer> ().material.color = Color.blue;
+		} else {
+			GetComponent<MeshRenderer> ().material.color = Color.red;
+		}
+	}
+
 	void Update () {
 		if (character == null) {
 			character = FindObjectOfType<CharacterPhysics>();
@@ -54,13 +63,14 @@ public class MagnetWell : MonoBehaviour {
 				magnetWave = Instantiate(negativeWavePrefab) as GameObject;
 			}
 			magnetWave.transform.parent = transform;
-			magnetWave.transform.localPosition = Vector3.zero;
+			magnetWave.transform.localPosition = new Vector3(0f, 10f, 0f);
 			magnetWave.GetComponent<MagneticWave>().maxRadius = 1f + 4f * power;
 			magnetWave.GetComponent<MagneticWave>().deathTime = 1.5f;
 			if (isPositive) {
-				magnetWave.GetComponent<MeshRenderer>().material.color = Color.blue;
+
+				magnetWave.GetComponent<MeshRenderer>().material.color = new Color(0, 0, 255, 128);
 			} else {
-				magnetWave.GetComponent<MeshRenderer>().material.color = Color.red;
+				magnetWave.GetComponent<MeshRenderer>().material.color = new Color(255, 0, 0, 128);
 			}
 		}
 	}
