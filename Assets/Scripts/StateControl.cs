@@ -49,10 +49,20 @@ public class StateControl : MonoBehaviour {
 		}
 
 		if (Input.GetKeyDown(KeyCode.Space) && state == State.drawing) {
+			BroadcastAll ("BackupState",null);
+
 			state = State.launching;
 
 			BroadcastAll ("OnGameStart",null);
 		}
+
+		if (Input.GetKeyDown(KeyCode.P)) {
+			BroadcastAll ("RestoreState", null);
+		}
+	}
+
+	void RestoreState() {
+		Start ();
 	}
 	
 	void DrawUpdate() {
@@ -116,4 +126,5 @@ public class StateControl : MonoBehaviour {
 		Vector3 mousePos = Input.mousePosition;
 		return Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, zDisplacement));
 	}
+
 }

@@ -6,6 +6,8 @@ public class Spinner : MonoBehaviour {
 	public float stickSize = 4f;
 	public float crossbeamWidth = 10f;
 
+	public Quaternion backupRotation;
+
 	void setCrossbeamWidth(float width) {
 		Transform[] transforms = GetComponentsInChildren<Transform> ();
 		for (int i=0; i<transforms.Length; ++i) {
@@ -52,6 +54,15 @@ public class Spinner : MonoBehaviour {
 
 	void OnGameStart() {
 		gameStarted = true;
+	}
+
+	void BackupState() {
+		backupRotation = transform.rotation;
+	}
+
+	void RestoreState() {
+		gameStarted = false;
+		transform.rotation = backupRotation;
 	}
 
 

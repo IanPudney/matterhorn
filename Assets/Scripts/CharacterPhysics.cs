@@ -1,10 +1,15 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
 public class CharacterPhysics : MonoBehaviour {
+	public List<MagnetWell> MagneticBodies;
 	Rigidbody characterRigidbody;
 	public Vector3 initialForce;
+
+	Vector3 backupPosition;
+	Quaternion backupRotation;
+	RigidbodyConstraints backupConstraints;
 	
 	Vector3 velocity, acceleration;
 	RigidbodyConstraints initialConstraints;
@@ -21,15 +26,34 @@ public class CharacterPhysics : MonoBehaviour {
 		characterRigidbody.constraints = initialConstraints;
 		characterRigidbody.AddForce (initialForce);
 	}
+
+	void BackupState() {
+		backupPosition = transform.localPosition;
+		backupRotation = transform.localRotation;
+		backupConstraints = characterRigidbody.constraints;
+	}
+
+	void RestoreState() {
+		transform.localPosition = backupPosition;
+		transform.localRotation = backupRotation;
+		characterRigidbody.constraints = backupConstraints;
+	}
 	
 	void FixedUpdate () {
 		UpdateTrajectory();
 		UpdateColor();
 	}
 	
+	public void AddWell(MagnetWell well) {
+		if (!MagneticBodies.Contains(well)) {
+			MagneticBodies.Add(well);
+		}
+	}
+
+	
 	void UpdateTrajectory() {
 		acceleration = Vector3.zero;
-		foreach(MagnetWell well in FindObjectsOfType<MagnetWell>()) {
+		foreach(MagnetWell well in MagneticBodies) {
 			Vector3 force = well.GetForce();
 			GetComponent<Rigidbody>().AddForce(force);
 			acceleration += force;
