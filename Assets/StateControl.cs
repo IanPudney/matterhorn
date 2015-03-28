@@ -8,40 +8,97 @@ public class StateControl : MonoBehaviour {
 		drawing,
 		launching
 	};
-	public State desiredState;
-	public bool toggleEnabled;
 	public static State state;
 	
+	public GameObject magnetWellPrefab;
+	public static bool polarityIsPositive;
+	
 	public static float magneticPower = 0f;
-	public Text magneticDisplay;
+	public Text magneticStrengthUIText;
+	public Text magneticPolarityUIText;
+	public Image magneticPolarityUIImage;
 	
 	void Start () {
 		main = this;
 	}
 	
 	void Update() {
-		if (toggleEnabled) {
-			toggleEnabled = false;
-			state = desiredState;
+		if (Input.GetKeyDown(KeyCode.Space)) {
+			if (state == State.drawing) {
+				state = State.launching;
+			} else if (state == State.launching) {
+				state = State.drawing;
+			}
 		}
 		
-		UpdateDisplay();
-		
-		if (Input.GetKeyDown(KeyCode.A)) {
-			magneticPower -= 0.1f;
-		}
-		if (Input.GetKeyDown(KeyCode.D)) {
-			magneticPower += 0.1f;
+		if (state == State.drawing) {
+			DrawUpdate();
+			UpdateImageDisplay();
+		} else if (state == State.launching) {
+			LaunchUpdate();
+			UpdateTextDisplay();
 		}
 	}
 	
-	void UpdateDisplay() {
-		if (magneticDisplay == null) {
-			magneticDisplay = GameObject.FindGameObjectWithTag("MagneticConstantDisplay").GetComponent<Text>();
-			if (magneticDisplay == null) {
+	void DrawUpdate() {
+		if (Input.GetMouseButtonDown(1)) {
+			polarityIsPositive = !polarityIsPositive;
+		}
+		if (Input.GetMouseButtonDown(0)) {
+			Vector3 mousePosition = GetMousePosition();
+			GameObject newMagnetWell = Instantiate(magnetWellPrefab) as GameObject;
+			newMagnetWell.transform.position = mousePosition;
+			newMagnetWell.GetComponent<MagnetWell>().isPositive = polarityIsPositive;
+			if (polarityIsPositive) {
+				newMagnetWell.GetComponent<MeshRenderer>().material.color = new Color(0.7f, 0.7f, 1);
+			} else {
+				newMagnetWell.GetComponent<MeshRenderer>().material.color = new Color(1, 0.7f, 0.7f);
+			}
+		}
+	}
+	
+	void LaunchUpdate() {
+		if (Input.GetKey(KeyCode.A)) {
+			magneticPower = -1f;
+		}
+		else if (Input.GetKey(KeyCode.D)) {
+			magneticPower = 1f;
+		}
+		else {
+			magneticPower = 0f;
+		}
+	}
+	
+	void UpdateImageDisplay() {
+		if (magneticPolarityUIImage == null) {
+			magneticPolarityUIImage = GameObject.FindGameObjectWithTag("MagneticPolarityIcon").GetComponent<Image>();
+			if (magneticPolarityUIImage == null) {
+				return;
+			}
+			magneticPolarityUIText = magneticPolarityUIImage.GetComponentInChildren<Text>();
+		}
+		if (polarityIsPositive) {
+			magneticPolarityUIImage.color = Color.blue;
+			magneticPolarityUIText.text = "+";
+		} else {
+			magneticPolarityUIImage.color = Color.red;
+			magneticPolarityUIText.text = "-";
+		}
+	}
+	
+	void UpdateTextDisplay() {
+		if (magneticStrengthUIText == null) {
+			magneticStrengthUIText = GameObject.FindGameObjectWithTag("MagneticConstantDisplay").GetComponent<Text>();
+			if (magneticStrengthUIText == null) {
 				return	;
 			}	
 		}
-		magneticDisplay.text = magneticPower.ToString("F4");
+		magneticStrengthUIText.text = magneticPower.ToString("F4");
+	}
+	
+	public static Vector3 GetMousePosition() {
+		float zDisplacement = -Camera.main.transform.position.z;
+		Vector3 mousePos = Input.mousePosition;
+		return Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, zDisplacement));
 	}
 }
