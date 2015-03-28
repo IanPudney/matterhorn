@@ -12,7 +12,7 @@ public class StateControl : MonoBehaviour {
 	public bool toggleEnabled;
 	public static State state;
 	
-	public static float magneticPower = -0.5f;
+	public static float magneticPower = 0f;
 	public Text magneticDisplay;
 	
 	void Start () {

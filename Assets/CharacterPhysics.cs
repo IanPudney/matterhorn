@@ -10,7 +10,6 @@ public class CharacterPhysics : MonoBehaviour {
 		if (characterRigidbody == null) {
 			characterRigidbody = GetComponent<Rigidbody>();
 		}
-		characterRigidbody.AddForce(500f * Vector3.right);
 	}
 	
 	void FixedUpdate () {
@@ -26,7 +25,6 @@ public class CharacterPhysics : MonoBehaviour {
 	void UpdateTrajectory() {
 		foreach(MagnetWell well in MagneticBodies) {
 			GetComponent<Rigidbody>().AddForce(well.GetForce());
-			print (well.GetForce());
 		}
 	}
 

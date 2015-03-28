@@ -6,7 +6,7 @@ public class MagnetWell : MonoBehaviour {
 	
 	public bool isPositive;
 	
-	public float activationDistance, disableDistance, mass;
+	public float mass;
 	
 	public float timer = 0f;
 	
