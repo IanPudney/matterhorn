@@ -98,6 +98,7 @@ public class StateControl : MonoBehaviour {
 		newMagnetWell.GetComponent<MagnetWell>().isPositive = !leftClick;
 			//Makes sure it is opposite so that initialization happens properly
 		newMagnetWell.GetComponent<MagnetWell>().ClickedOn(leftClick);
+		GameObject.Find ("Character").GetComponent<CharacterPhysics> ().AddWell(newMagnetWell.GetComponent<MagnetWell>());
 	}
 	
 	void LaunchUpdate() {
