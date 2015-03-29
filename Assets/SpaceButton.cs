@@ -14,6 +14,7 @@ public class SpaceButton : MonoBehaviour {
 			Vector3 mousePosition = Input.mousePosition;
 			if (Mathf.Abs(mousePosition.x - transform.position.x) < GetComponent<RectTransform>().sizeDelta.x / 2
 			    && Mathf.Abs(mousePosition.y - transform.position.y) < GetComponent<RectTransform>().sizeDelta.y / 2) {
+			    UtilityButton.clicked = true;
 				if (StateControl.state == StateControl.State.launching) {
 					TogglePolarity();
 				} else if (StateControl.state == StateControl.State.drawing) {
