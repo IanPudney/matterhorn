@@ -22,7 +22,9 @@ public class GameOverCanvas_Score : MonoBehaviour {
 	
 	void GameLoss() {
 		var magneticNodes = GameObject.FindObjectOfType<MagneticNodeCounter> ();
-		Scorekeeper.UpdateScores(StateControl.main.currentRoom, magneticNodes.getMagneticNodes());
-		GetComponent<Text> ().text = "";
+		if (magneticNodes) {
+			Scorekeeper.UpdateScores(StateControl.main.currentRoom, magneticNodes.getMagneticNodes());
+			GetComponent<Text> ().text = "";
+		}
 	}
 }

@@ -14,7 +14,6 @@ public class GameOverCanvas : MonoBehaviour {
 		if (Input.GetKeyDown ("space")) {
 			Debug.Log ("Space");
 			StateControl.BroadcastAll("RestoreState", null);
-			this.enabled = false;
 			Object.Destroy(this.gameObject);
 
 		}
