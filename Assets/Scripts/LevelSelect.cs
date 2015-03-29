@@ -20,7 +20,7 @@ public class LevelSelect : MonoBehaviour {
 
 
 	void Challenge() {
-		Instantiate (Resources.Load ("Prefabs/ChallengeLevelSelect"));
+		Instantiate (Resources.Load ("Prefabs/AdvancedLevelSelect"));
 	}
 
 	void Custom() {
