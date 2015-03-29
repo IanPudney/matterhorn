@@ -30,7 +30,7 @@ public class MagneticNodeCounter : MonoBehaviour {
 	
 	void Update() {
 		if (playErrorNoise){
-			if (!NodeRemovalHandler.clicked) {
+			if (!UtilityButton.clicked) {
 				AudioSource.PlayClipAtPoint(errorNoise,Camera.main.transform.position);
 			}
 			playErrorNoise = false;	

@@ -46,7 +46,6 @@ public class CharacterPhysics : MonoBehaviour {
 		UpdateTrajectory();
 		UpdateColor();
 	}
-
 	
 	void UpdateTrajectory() {
 		float volume = 0;

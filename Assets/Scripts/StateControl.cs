@@ -96,7 +96,7 @@ public class StateControl : MonoBehaviour {
 				return;
 			}
 		}
-		if (NodeRemovalHandler.clicked || !magneticNodeCounter.addNode()) {
+		if (UtilityButton.clicked || !magneticNodeCounter.addNode()) {
 			return;
 		}
 		GameObject newMagnetWell = Instantiate(magnetWellPrefab) as GameObject;
@@ -179,8 +179,13 @@ public class StateControl : MonoBehaviour {
 				GameObject.FindGameObjectWithTag("RecordText").GetComponent<Text>().text
 				= "Not yet beaten";
 		} else {
-			GameObject.FindGameObjectWithTag("RecordText").GetComponent<Text>().text
-				= "Best: " + record.ToString() + " Nodes";
+			if (record == 1) {
+				GameObject.FindGameObjectWithTag("RecordText").GetComponent<Text>().text
+					= "Best: 1 Node";
+			} else {
+				GameObject.FindGameObjectWithTag("RecordText").GetComponent<Text>().text
+					= "Best: " + record.ToString() + " Nodes";
+			}
 		}
 	}
 	
