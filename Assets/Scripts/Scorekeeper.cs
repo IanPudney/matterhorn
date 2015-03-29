@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class Scorekeeper : MonoBehaviour {
-	public int NumLevels;
+	const int NumLevels = 15;
 	public static List<int> HighScores;
 	public static string scoreText;
 	
