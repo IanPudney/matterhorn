@@ -7,10 +7,7 @@ using System.Xml.Serialization;
 using System.IO;
 
 public class LoadCustomLevel : MonoBehaviour {
-
-	// Use this for initialization
-	public string customLevelUrl = "custom.xml";
-	void Start () {
+	void StartLevel (string customLevelUrl) {
 		CustomLevelSerialized customLevel = CustomLevelSerialized.Load (customLevelUrl);
 
 		for (int i=0; i<customLevel.SerializedObjects.Length; ++i) {
@@ -19,24 +16,6 @@ public class LoadCustomLevel : MonoBehaviour {
 			Debug.Log (obj);
 			obj.transform.parent = this.transform;
 		}
-		/*customLevel.SerializedObjects = new SerializedObject[7];
-		customLevel.SerializedObjects [0] = new SerializedObject ();
-		customLevel.SerializedObjects [1] = new MapSerialized ();
-		customLevel.SerializedObjects [2] = new PlayerSerialized ();
-		customLevel.SerializedObjects [3] = new GoalTargetSerialized ();
-		customLevel.SerializedObjects [4] = new WallSerialized ();
-		customLevel.SerializedObjects [5] = new SlidingWallSerialized ();
-		customLevel.SerializedObjects [6] = new SpinnerSerialized ();
-
-		customLevel.Save (customLevelUrl);*/
-
-
-
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
 	}
 }
 [XmlRoot("CustomLevel")]

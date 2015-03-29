@@ -24,7 +24,7 @@ public class LevelSelect : MonoBehaviour {
 	}
 
 	void Custom() {
-		Instantiate (Resources.Load ("Prefabs/CustomLevelSelect"));
+		Application.LoadLevel ("_CustomLevel");
 	}
 
 
