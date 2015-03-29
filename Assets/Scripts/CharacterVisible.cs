@@ -14,6 +14,8 @@ public class CharacterVisible : MonoBehaviour {
 	}
 
 	void OnBecameInvisible() {
-		StateControl.main.EndLoss ();
+		if (GetComponentInParent<CharacterPhysics>() != null) {
+			StateControl.main.EndLoss ();
+		}
 	}
 }
