@@ -12,6 +12,8 @@ public class SlidingWallMove : MonoBehaviour {
 	public float travel = 10f;
 	public float startPosition = 5f;
 
+	public bool useEditorValues = true;
+
 	private Vector3 velocityVector;
 
 	private Vector3 backupPosition;
@@ -24,9 +26,11 @@ public class SlidingWallMove : MonoBehaviour {
 		if (wallRigidBody == null) {
 			wallRigidBody = wall.GetComponent<Rigidbody>();
 		}
-		setHeight (height);
-		setTravel (travel);
-		setStartPosition (startPosition);
+		if (useEditorValues) {
+			setHeight (height);
+			setTravel (travel);
+			setStartPosition (startPosition);
+		}
 	}
 
 	void OnGameStart() {
