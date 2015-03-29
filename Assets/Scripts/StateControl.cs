@@ -48,6 +48,9 @@ public class StateControl : MonoBehaviour {
 	}
 	
 	void Update() {
+		if (Input.GetKeyDown (KeyCode.Escape)) {
+			Application.LoadLevel("_TitleScene");
+		}
 		if (state == State.drawing) {
 			DrawUpdate();
 		} else if (state == State.launching) {

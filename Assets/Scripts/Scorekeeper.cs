@@ -28,7 +28,7 @@ public class Scorekeeper : MonoBehaviour {
 					+ " only 1 Node!";
 			} else {
 				scoreText = "You have beaten the old record (" + HighScores[index] + ") with"
-					+ " a your score of " + score + "!";
+					+ " your score of " + score + "!";
 			}
 			PlayerPrefs.SetInt(index.ToString(), score);
 		} else if (HighScores[index] == score) {
