@@ -14,6 +14,6 @@ public class CharacterVisible : MonoBehaviour {
 	}
 
 	void OnBecameInvisible() {
-		Debug.Log ("Character invisible");
+		StateControl.main.EndLoss ();
 	}
 }

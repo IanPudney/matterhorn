@@ -14,10 +14,10 @@ public class GameOverCanvas_Result : MonoBehaviour {
 	}
 
 	void GameWin() {
-		GetComponent<Text> ().text = "Victory";
+		GetComponent<Text> ().text = "Victory!";
 	}
 
 	void GameLoss() {
-		GetComponent<Text> ().text = "Loss";
+		GetComponent<Text> ().text = "Defeat!";
 	}
 }

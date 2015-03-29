@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class GameOverCanvas_Score : MonoBehaviour {
-	bool win = false;
+
 	string ScoreText;
 	// Use this for initialization
 	void Start () {
@@ -12,16 +12,17 @@ public class GameOverCanvas_Score : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (win) {
-			GetComponent<Text> ().text = Scorekeeper.scoreText;
-		}
 	}
 
 	void GameWin() {
-		win = true;
+		var magneticNodes = GameObject.FindObjectOfType<MagneticNodeCounter> ();
+		Scorekeeper.UpdateScores(StateControl.main.currentRoom, magneticNodes.getMagneticNodes());
+		GetComponent<Text> ().text = Scorekeeper.scoreText;
 	}
 	
 	void GameLoss() {
-		win = false;
+		var magneticNodes = GameObject.FindObjectOfType<MagneticNodeCounter> ();
+		Scorekeeper.UpdateScores(StateControl.main.currentRoom, magneticNodes.getMagneticNodes());
+		GetComponent<Text> ().text = "";
 	}
 }

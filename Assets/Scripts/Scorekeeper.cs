@@ -21,13 +21,14 @@ public class Scorekeeper : MonoBehaviour {
 	
 	public static void UpdateScores(int index, int score) {
 		scoreText = "Score: " + score;
-		if (HighScores[index] > score) {
+		/*Disabled until I can have Derek fix this
+		 * if (HighScores[index] > score) {
 			HighScores[index] = score;;
 			scoreText = "Congratulations!  You have beaten the old record of " + HighScores[index] + " with"
 					+ "a score of " + score + "!";
 			PlayerPrefs.SetInt(index.ToString(), score);
 		} else {
 			print (HighScores[index] + " " + score);
-		}
+		}*/
 	}
 }

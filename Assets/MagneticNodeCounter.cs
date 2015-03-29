@@ -31,9 +31,8 @@ public class MagneticNodeCounter : MonoBehaviour {
 		}
 		Start ();
 	}
-	
-	public void FinishLevel() {
-		Scorekeeper.UpdateScores(magneticNodes, StateControl.main.currentRoom);
-		StateControl.levelWon = true;
+
+	public int getMagneticNodes() {
+		return magneticNodes;
 	}
 }
