@@ -22,7 +22,7 @@ public class StateControl : MonoBehaviour {
 	public GameObject magnetWellPrefab;
 	public static bool polarityIsPositive;
 
-	public Text magneticStrengthUIText;
+	public Image magneticStrengthUIImage;
 	public Text magneticPolarityUIText;
 	public Image magneticPolarityUIImage;
 	
@@ -34,14 +34,7 @@ public class StateControl : MonoBehaviour {
 		magneticPower = magneticPowerStart;
 		state = State.drawing;
 		levelWon = false;
-		
-		string regex = Regex.Match(Application.loadedLevelName, @"\d+").Value;
-		if (string.Compare(regex, "") != 0) {
-			currentRoom = int.Parse(regex);
-			print ("Starting level " + currentRoom);
-		} else {
-			print ("Starting custom level");
-		}
+		PrintBestScore();
 	}
 
 	public static void BroadcastAll(string fun, System.Object msg) {
@@ -67,6 +60,7 @@ public class StateControl : MonoBehaviour {
 			state = State.launching;
 
 			BroadcastAll ("OnGameStart",null);
+			ToggleMusic();
 		}
 
 		if (Input.GetKeyDown(KeyCode.P)) {
@@ -75,6 +69,7 @@ public class StateControl : MonoBehaviour {
 	}
 
 	void RestoreState() {
+		ToggleMusic();
 		Start ();
 	}
 	
@@ -126,22 +121,22 @@ public class StateControl : MonoBehaviour {
 	}
 	
 	void UpdateTextDisplay() {
-		if (magneticStrengthUIText == null) {
-			magneticStrengthUIText = GameObject.FindGameObjectWithTag("MagneticConstantDisplay").GetComponent<Text>();
-			if (magneticStrengthUIText == null) {
+		if (magneticStrengthUIImage == null) {
+			magneticStrengthUIImage = GameObject.FindGameObjectWithTag("MagneticConstantDisplay").GetComponent<Image>();
+			if (magneticStrengthUIImage == null) {
 				return	;
 			}	
 		}
-		/*if (magneticPower > 0.1f) {
-			magneticStrengthUIText.text = "+";
-			magneticStrengthUIText.GetComponentInParent<Image>().material.color = Color.blue;
+		if (magneticPower > 0.1f) {
+			magneticStrengthUIImage.GetComponentInChildren<Text>().text = "+";
+			magneticStrengthUIImage.color = Color.blue;
 		} else if (magneticPower < -0.1f) {
-			magneticStrengthUIText.text = "-";
-			magneticStrengthUIText.GetComponentInParent<Image>().material.color = Color.red;
+			magneticStrengthUIImage.GetComponentInChildren<Text>().text = "-";
+			magneticStrengthUIImage.color = Color.red;
 		} else {
-			magneticStrengthUIText.text = "0";
-			magneticStrengthUIText.GetComponentInParent<Image>().material.color = Color.gray;
-		}*/
+			magneticStrengthUIImage.GetComponentInChildren<Text>().text = "0";
+			magneticStrengthUIImage.color = Color.gray;
+		}
 	}
 	
 	public static Vector3 GetMousePosition() {
@@ -165,7 +160,33 @@ public class StateControl : MonoBehaviour {
 			levelWon = true;
 			GameObject screen = (GameObject) Instantiate (Resources.Load("Prefabs/GameOverCanvas"));
 			screen.BroadcastMessage("GameWin");
+			PrintBestScore();
 		}
 	}
 
+	void PrintBestScore() {
+		string regex = Regex.Match(Application.loadedLevelName, @"\d+").Value;
+		if (string.Compare(regex, "") != 0) {
+			currentRoom = int.Parse(regex);
+			GameObject.FindGameObjectWithTag("LevelText").GetComponent<Text>().text = "Level " + regex;
+			int record = PlayerPrefs.GetInt(regex);
+			if (record == 0) {
+				GameObject.FindGameObjectWithTag("RecordText").GetComponent<Text>().text
+					= "Not yet beaten";
+			} else {
+				GameObject.FindGameObjectWithTag("RecordText").GetComponent<Text>().text
+					= "Best: " + record.ToString() + " Nodes";
+			}			
+		} else {
+			GameObject.FindGameObjectWithTag("LevelText").GetComponent<Text>().text = "Custom Level";
+			GameObject.FindGameObjectWithTag("RecordText").SetActive(false);
+		}
+	}
+	
+	void ToggleMusic() {
+		AudioSource[] sources = GetComponents<AudioSource>();
+		foreach (AudioSource source in sources) {
+			source.mute = !source.mute;
+		}
+	}
 }

@@ -3,6 +3,7 @@ using System.Collections;
 
 public class MagnetWell : MonoBehaviour {
 	public GameObject positiveWavePrefab, negativeWavePrefab;
+	public AudioClip creationNoise;
 	
 	public bool isPositive;
 	
@@ -14,6 +15,10 @@ public class MagnetWell : MonoBehaviour {
 	public static bool draggingAny = false;
 	
 	public CharacterPhysics character;
+	
+	void Start() {
+		AudioSource.PlayClipAtPoint(creationNoise,Camera.main.transform.position);
+	}
 	
 	void SetState(bool toPositive) {
 		if (toPositive) {
