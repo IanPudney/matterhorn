@@ -20,11 +20,11 @@ public class Scorekeeper : MonoBehaviour {
 	}
 	
 	public static void UpdateScores(int index, int score) {
-		scoreText = "Score: " + score;
+		scoreText = "Nodes Used: " + score;
 		if (HighScores[index] > score) {
 			HighScores[index] = score;;
 			scoreText = "Congratulations!  You have beaten the old record of " + HighScores[index] + " with"
-					+ "a score of " + score + "!";
+					+ "a new best of only " + score + " Nodes!";
 			PlayerPrefs.SetInt(index.ToString(), score);
 		} else {
 			print (HighScores[index] + " " + score);

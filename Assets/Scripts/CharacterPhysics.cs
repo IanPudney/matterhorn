@@ -14,7 +14,7 @@ public class CharacterPhysics : MonoBehaviour {
 	Vector3 velocity, acceleration;
 	RigidbodyConstraints initialConstraints;
 	
-	public float volumeScale = 100f;
+	public float volumeScale = 50f;
 	
 	void Start () {
 		if (characterRigidbody == null) {
@@ -71,8 +71,8 @@ public class CharacterPhysics : MonoBehaviour {
 		} else {
 			characterRigidbody.rotation *= Quaternion.Euler(Vector3.back * acceleration.magnitude);
 		}
-		if (volume > volumeScale / 25) {
-			volume = volumeScale / 25;
+		if (volume > volumeScale) {
+			volume = volumeScale;
 		}
 		GetComponent<AudioSource>().volume = volume / volumeScale;
 	}

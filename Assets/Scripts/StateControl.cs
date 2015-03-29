@@ -28,6 +28,7 @@ public class StateControl : MonoBehaviour {
 	
 	public MagneticNodeCounter magneticNodeCounter;
 	public static bool levelWon = false;
+	public string destinationLevel;
 	
 	void Start () {
 		main = this;
@@ -127,10 +128,10 @@ public class StateControl : MonoBehaviour {
 				return	;
 			}	
 		}
-		if (magneticPower > 0.1f) {
+		if (magneticPower < -0.1f) {
 			magneticStrengthUIImage.GetComponentInChildren<Text>().text = "+";
 			magneticStrengthUIImage.color = Color.blue;
-		} else if (magneticPower < -0.1f) {
+		} else if (magneticPower > 0.1f) {
 			magneticStrengthUIImage.GetComponentInChildren<Text>().text = "-";
 			magneticStrengthUIImage.color = Color.red;
 		} else {
@@ -154,13 +155,14 @@ public class StateControl : MonoBehaviour {
 		}
 	}
 
-	public void EndWin() {
+	public void EndWin(string destinationScene) {
 		if (state != State.gameover) {
 			state = State.gameover;
 			levelWon = true;
 			GameObject screen = (GameObject) Instantiate (Resources.Load("Prefabs/GameOverCanvas"));
 			screen.BroadcastMessage("GameWin");
 			PrintBestScore();
+			destinationLevel = destinationScene;
 		}
 	}
 
