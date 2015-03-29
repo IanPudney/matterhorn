@@ -14,8 +14,8 @@ public class WallBehavior : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		if (wallType==WallType.bouncy) {
-			PhysicMaterial material = GetComponent<PhysicMaterial> ();
-			material = bouncyWall;
+			/*PhysicMaterial material = GetComponent<PhysicMaterial> ();
+			material = bouncyWall;*/
 			GetComponent<Renderer> ().material.color = Color.gray;
 		} else {
 

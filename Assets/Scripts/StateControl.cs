@@ -189,7 +189,7 @@ public class StateControl : MonoBehaviour {
 		}
 	}
 	
-	void ToggleMusic() {
+	public void ToggleMusic() {
 		AudioSource[] sources = GetComponents<AudioSource>();
 		foreach (AudioSource source in sources) {
 			source.mute = !source.mute;
