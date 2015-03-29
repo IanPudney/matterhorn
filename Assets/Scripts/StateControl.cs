@@ -48,20 +48,17 @@ public class StateControl : MonoBehaviour {
 	}
 	
 	void Update() {
+		if (Input.GetKeyDown (KeyCode.Escape)) {
+			Application.LoadLevel("_TitleScene");
+		}
 		if (state == State.drawing) {
 			DrawUpdate();
 		} else if (state == State.launching) {
 			LaunchUpdate();
 			UpdateTextDisplay();
 		}
-
-		if (Input.GetKeyDown(KeyCode.Space) && state == State.drawing) {
-			BroadcastAll ("BackupState",null);
-
-			state = State.launching;
-
-			BroadcastAll ("OnGameStart",null);
-			ToggleMusic();
+		if ((Input.GetKeyDown(KeyCode.Space))) {
+			SpaceFn();
 		}
 
 		if (Input.GetKeyDown(KeyCode.P)) {
@@ -72,6 +69,18 @@ public class StateControl : MonoBehaviour {
 	void RestoreState() {
 		ToggleMusic();
 		Start ();
+	}
+	public void SpaceFn() {
+		Debug.Log ("SpaceFn");
+		if (state == State.drawing) {
+
+			BroadcastAll ("BackupState", null);
+			
+			state = State.launching;
+			
+			BroadcastAll ("OnGameStart", null);
+			ToggleMusic ();
+		}
 	}
 	
 	void DrawUpdate() {
@@ -115,7 +124,7 @@ public class StateControl : MonoBehaviour {
 			magneticPower = 0f;
 		}
 
-		if (Input.GetKeyDown ("space")) {
+		if (Input.GetKeyDown ("space") || GoButton.goButtonDown) {
 			magneticPower = -magneticPower;
 		}
 	}
