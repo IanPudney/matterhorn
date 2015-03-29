@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Scorekeeper : MonoBehaviour {
 	public int NumLevels;
 	public static List<int> HighScores;
-	Text recordText;
+	public static string scoreText;
 	
 	void Awake() {
 		HighScores = new List<int>();
@@ -17,15 +17,13 @@ public class Scorekeeper : MonoBehaviour {
 				HighScores.Add (int.MaxValue);
 			}
 		}
-		recordText = GameObject.FindGameObjectWithTag("RecordText").GetComponent<Text>();
-		recordText.enabled = false;
 	}
 	
 	public static void UpdateScores(int index, int score) {
+		scoreText = "Score: " + score;
 		if (HighScores[index] > score) {
-			HighScores[index] = score;
-			recordText.enabled = true;
-			recordText.text = "Congratulations!  You have beaten the old record of " + HighScores[index] + " with"
+			HighScores[index] = score;;
+			scoreText = "Congratulations!  You have beaten the old record of " + HighScores[index] + " with"
 					+ "a score of " + score + "!";
 			PlayerPrefs.SetInt(index.ToString(), score);
 		} else {

@@ -66,10 +66,6 @@ public class CharacterPhysics : MonoBehaviour {
 			characterRigidbody.rotation *= Quaternion.Euler(Vector3.back * acceleration.magnitude);
 		}
 	}
-
-	void OnCollisionEnter(Collision collision) {
-		Debug.Log ("Game Over");
-	}
 	
 	void UpdateColor() {
 		Color newColor;

@@ -8,7 +8,8 @@ public class StateControl : MonoBehaviour {
 
 	public enum State {
 		drawing,
-		launching
+		launching,
+		gameover
 	};
 	public static State state;
 
@@ -127,6 +128,24 @@ public class StateControl : MonoBehaviour {
 		float zDisplacement = -Camera.main.transform.position.z;
 		Vector3 mousePos = Input.mousePosition;
 		return Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, zDisplacement));
+	}
+
+	public void EndLoss() {
+		if (state != State.gameover) {
+			state = State.gameover;
+			levelWon = false;
+			GameObject screen = (GameObject) Instantiate (Resources.Load("Prefabs/GameOverCanvas"));
+			screen.BroadcastMessage("GameLoss");
+		}
+	}
+
+	public void EndWin() {
+		if (state != State.gameover) {
+			state = State.gameover;
+			levelWon = true;
+			GameObject screen = (GameObject) Instantiate (Resources.Load("Prefabs/GameOverCanvas"));
+			screen.BroadcastMessage("GameWin");
+		}
 	}
 
 }
