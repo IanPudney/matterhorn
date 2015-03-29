@@ -14,6 +14,8 @@ public class CharacterPhysics : MonoBehaviour {
 	Vector3 velocity, acceleration;
 	RigidbodyConstraints initialConstraints;
 	
+	public float volumeScale = 100f;
+	
 	void Start () {
 		if (characterRigidbody == null) {
 			characterRigidbody = GetComponent<Rigidbody>();
@@ -25,6 +27,7 @@ public class CharacterPhysics : MonoBehaviour {
 	void OnGameStart() {
 		characterRigidbody.constraints = initialConstraints;
 		characterRigidbody.AddForce (initialForce);
+		GetComponent<AudioSource>().mute = false;
 	}
 
 	void BackupState() {
@@ -37,6 +40,7 @@ public class CharacterPhysics : MonoBehaviour {
 		transform.localPosition = backupPosition;
 		transform.localRotation = backupRotation;
 		characterRigidbody.constraints = backupConstraints;
+		GetComponent<AudioSource>().mute = true;
 	}
 	
 	void FixedUpdate () {
@@ -52,11 +56,13 @@ public class CharacterPhysics : MonoBehaviour {
 
 	
 	void UpdateTrajectory() {
+		float volume = 0;
 		acceleration = Vector3.zero;
 		foreach(MagnetWell well in MagneticBodies) {
 			Vector3 force = well.GetForce();
 			GetComponent<Rigidbody>().AddForce(force);
 			acceleration += force;
+			volume += force.sqrMagnitude;
 		}
 		Debug.DrawRay(transform.position, acceleration * 5f, Color.red);
 		Debug.DrawRay(transform.position, characterRigidbody.velocity * 5f, Color.blue);
@@ -65,6 +71,10 @@ public class CharacterPhysics : MonoBehaviour {
 		} else {
 			characterRigidbody.rotation *= Quaternion.Euler(Vector3.back * acceleration.magnitude);
 		}
+		if (volume > volumeScale / 25) {
+			volume = volumeScale / 25;
+		}
+		GetComponent<AudioSource>().volume = volume / volumeScale;
 	}
 	
 	void UpdateColor() {
