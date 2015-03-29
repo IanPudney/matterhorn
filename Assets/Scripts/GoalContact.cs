@@ -14,8 +14,8 @@ public class GoalContact : MonoBehaviour {
 	}
 	
 	void OnCollisionEnter(Collision other) {
-		if (other.gameObject.GetComponent<CharacterPhysics>() != null) {
-			
+		if (other.gameObject.GetComponent<CharacterPhysics>() != null && StateControl.state == StateControl.State.launching) {
+			StateControl.main.EndWin ();
 		}
 	}
 }
