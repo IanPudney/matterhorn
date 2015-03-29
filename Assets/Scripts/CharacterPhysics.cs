@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class CharacterPhysics : MonoBehaviour {
-	public List<MagnetWell> MagneticBodies;
 	Rigidbody characterRigidbody;
 	public Vector3 initialForce;
 
@@ -47,18 +46,12 @@ public class CharacterPhysics : MonoBehaviour {
 		UpdateTrajectory();
 		UpdateColor();
 	}
-	
-	public void AddWell(MagnetWell well) {
-		if (!MagneticBodies.Contains(well)) {
-			MagneticBodies.Add(well);
-		}
-	}
 
 	
 	void UpdateTrajectory() {
 		float volume = 0;
 		acceleration = Vector3.zero;
-		foreach(MagnetWell well in MagneticBodies) {
+		foreach(MagnetWell well in FindObjectsOfType<MagnetWell>()) {
 			Vector3 force = well.GetForce();
 			GetComponent<Rigidbody>().AddForce(force);
 			acceleration += force;

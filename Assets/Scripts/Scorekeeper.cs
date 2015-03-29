@@ -22,12 +22,24 @@ public class Scorekeeper : MonoBehaviour {
 	public static void UpdateScores(int index, int score) {
 		scoreText = "Nodes Used: " + score;
 		if (HighScores[index] > score) {
-			HighScores[index] = score;;
-			scoreText = "Congratulations!  You have beaten the old record of " + HighScores[index] + " with"
-					+ "a new best of only " + score + " Nodes!";
+			HighScores[index] = score;
+			if (score == 1) {
+				scoreText = "Congratulations!  You have beaten the old record of " + HighScores[index] + " with"
+					+ " a new best of 1 Node!";
+			} else {
+				scoreText = "Congratulations!  You have beaten the old record of " + HighScores[index] + " with"
+					+ " a new best of " + score + " Nodes!";
+			}
 			PlayerPrefs.SetInt(index.ToString(), score);
+		} else if (HighScores[index] == score) {
+			if (score == 1) {
+				scoreText = "You tied the record of 1 node!";
+			} else {
+				scoreText = "You tied the record of " + score + " nodes!";
+			}
 		} else {
-			print (HighScores[index] + " " + score);
+			scoreText = "You used " + score + " nodes."
+				+ "  The record is  " + HighScores[index] + "!";
 		}
 	}
 }
