@@ -60,6 +60,7 @@ public class StateControl : MonoBehaviour {
 			state = State.launching;
 
 			BroadcastAll ("OnGameStart",null);
+			ToggleMusic();
 		}
 
 		if (Input.GetKeyDown(KeyCode.P)) {
@@ -68,6 +69,7 @@ public class StateControl : MonoBehaviour {
 	}
 
 	void RestoreState() {
+		ToggleMusic();
 		Start ();
 	}
 	
@@ -180,5 +182,11 @@ public class StateControl : MonoBehaviour {
 			GameObject.FindGameObjectWithTag("RecordText").SetActive(false);
 		}
 	}
-
+	
+	void ToggleMusic() {
+		AudioSource[] sources = GetComponents<AudioSource>();
+		foreach (AudioSource source in sources) {
+			source.mute = !source.mute;
+		}
+	}
 }
