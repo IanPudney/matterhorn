@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <CustomLevel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <SerializedObject>
-    <SerializedObjects xsi:type="PlayerSerialized" xpos="-19" ypos="0" xvel="100" yvel="0" />
-    <SerializedObjects xsi:type="GoalTargetSerialized" xpos="13" ypos="0" size="1" zrot="0" />
-    <SerializedObjects xsi:type="WallSerialized" xpos="0" ypos="0" zrot="0" yscale="4" />
-    <SerializedObjects xsi:type="SlidingWallSerialized" xpos="0" ypos="5" zrot="45" velocity="15" height="4" travel="15" startpos="5" />
-    <SerializedObjects xsi:type="SpinnerSerialized" xpos="2" ypos="-5" zrot="0" rotspeed="-30" sticksize="10" beamwidth="10" />
+    <SerializedObjects xsi:type="PlayerSerialized" xpos="-9" ypos="8" xvel="0" yvel="-150" />
+    <SerializedObjects xsi:type="GoalTargetSerialized" xpos="10" ypos="-6" size="1" zrot="70" />
+    <SerializedObjects xsi:type="WallSerialized" xpos="2" ypos="-6" zrot="-30" yscale="4" />
+    <SerializedObjects xsi:type="SpinnerSerialized" xpos="-9" ypos="-3" zrot="0" rotspeed="40" sticksize="4" beamwidth="6" />
+    <SerializedObjects xsi:type="SpinnerSerialized" xpos="9" ypos="3" zrot="0" rotspeed="-40" sticksize="3" beamwidth="8" />
   </SerializedObject>
 </CustomLevel>

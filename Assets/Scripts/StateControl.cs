@@ -167,20 +167,20 @@ public class StateControl : MonoBehaviour {
 
 	void PrintBestScore() {
 		string regex = Regex.Match(Application.loadedLevelName, @"\d+").Value;
-		if (string.Compare(regex, "") != 0) {
-			currentRoom = int.Parse(regex);
-			GameObject.FindGameObjectWithTag("LevelText").GetComponent<Text>().text = "Level " + regex;
-			int record = PlayerPrefs.GetInt(regex);
-			if (record == 0) {
-				GameObject.FindGameObjectWithTag("RecordText").GetComponent<Text>().text
-					= "Not yet beaten";
-			} else {
-				GameObject.FindGameObjectWithTag("RecordText").GetComponent<Text>().text
-					= "Best: " + record.ToString() + " Nodes";
-			}			
-		} else {
+		if (string.Compare (Application.loadedLevelName, "_CustomLevel") == 0) {
 			GameObject.FindGameObjectWithTag("LevelText").GetComponent<Text>().text = "Custom Level";
-			GameObject.FindGameObjectWithTag("RecordText").SetActive(false);
+			GameObject.FindGameObjectWithTag("RecordText").GetComponent<Text>().text = "";
+			return;
+		}
+		currentRoom = int.Parse(regex);
+		GameObject.FindGameObjectWithTag("LevelText").GetComponent<Text>().text = "Level " + regex;
+		int record = PlayerPrefs.GetInt(regex);
+		if (record == 0) {
+				GameObject.FindGameObjectWithTag("RecordText").GetComponent<Text>().text
+				= "Not yet beaten";
+		} else {
+			GameObject.FindGameObjectWithTag("RecordText").GetComponent<Text>().text
+				= "Best: " + record.ToString() + " Nodes";
 		}
 	}
 	

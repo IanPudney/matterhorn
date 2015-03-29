@@ -7,6 +7,10 @@ public class NodeRemovalHandler : MonoBehaviour {
 	public static bool clicked;
 
 	public void Update() {
+		if (StateControl.state == StateControl.State.launching) {
+			GetComponentInChildren<Text>().enabled = false;
+			return;
+		}
 		clicked = false;
 		if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)) {
 			Vector3 mousePosition = Input.mousePosition;
