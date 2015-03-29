@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.Text.RegularExpressions;
 
 public class StateControl : MonoBehaviour {
 	public static StateControl main;
+	[HideInInspector]
 	public int currentRoom;
 
 	public enum State {
@@ -32,6 +34,14 @@ public class StateControl : MonoBehaviour {
 		magneticPower = magneticPowerStart;
 		state = State.drawing;
 		levelWon = false;
+		
+		string regex = Regex.Match(Application.loadedLevelName, @"\d+").Value;
+		if (string.Compare(regex, "") != 0) {
+			currentRoom = int.Parse(regex);
+			print ("Starting level " + currentRoom);
+		} else {
+			print ("Starting custom level");
+		}
 	}
 
 	public static void BroadcastAll(string fun, System.Object msg) {
@@ -122,7 +132,16 @@ public class StateControl : MonoBehaviour {
 				return	;
 			}	
 		}
-		magneticStrengthUIText.text = magneticPower.ToString("F4");
+		/*if (magneticPower > 0.1f) {
+			magneticStrengthUIText.text = "+";
+			magneticStrengthUIText.GetComponentInParent<Image>().material.color = Color.blue;
+		} else if (magneticPower < -0.1f) {
+			magneticStrengthUIText.text = "-";
+			magneticStrengthUIText.GetComponentInParent<Image>().material.color = Color.red;
+		} else {
+			magneticStrengthUIText.text = "0";
+			magneticStrengthUIText.GetComponentInParent<Image>().material.color = Color.gray;
+		}*/
 	}
 	
 	public static Vector3 GetMousePosition() {
