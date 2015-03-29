@@ -24,18 +24,18 @@ public class Scorekeeper : MonoBehaviour {
 		if (HighScores[index] > score) {
 			HighScores[index] = score;
 			if (score == 1) {
-				scoreText = "Congratulations!  You have beaten the old record of " + HighScores[index] + " with"
-					+ " a new best of 1 Node!";
+				scoreText = "You have beaten the old record (" + HighScores[index] + ") using"
+					+ " only 1 Node!";
 			} else {
-				scoreText = "Congratulations!  You have beaten the old record of " + HighScores[index] + " with"
-					+ " a new best of " + score + " Nodes!";
+				scoreText = "You have beaten the old record (" + HighScores[index] + ") with"
+					+ " a your score of " + score + "!";
 			}
 			PlayerPrefs.SetInt(index.ToString(), score);
 		} else if (HighScores[index] == score) {
 			if (score == 1) {
-				scoreText = "You tied the record of 1 node!";
+				scoreText = "You tied the record using 1 node!";
 			} else {
-				scoreText = "You tied the record of " + score + " nodes!";
+				scoreText = "You tied the record using " + score + " nodes!";
 			}
 		} else {
 			scoreText = "You used " + score + " nodes."
