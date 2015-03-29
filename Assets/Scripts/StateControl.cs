@@ -28,6 +28,7 @@ public class StateControl : MonoBehaviour {
 	
 	public MagneticNodeCounter magneticNodeCounter;
 	public static bool levelWon = false;
+	public string destinationLevel;
 	
 	void Start () {
 		main = this;
@@ -95,7 +96,7 @@ public class StateControl : MonoBehaviour {
 				return;
 			}
 		}
-		if (!magneticNodeCounter.addNode()) {
+		if (NodeRemovalHandler.clicked || !magneticNodeCounter.addNode()) {
 			return;
 		}
 		GameObject newMagnetWell = Instantiate(magnetWellPrefab) as GameObject;
@@ -103,7 +104,6 @@ public class StateControl : MonoBehaviour {
 		newMagnetWell.GetComponent<MagnetWell>().isPositive = !leftClick;
 			//Makes sure it is opposite so that initialization happens properly
 		newMagnetWell.GetComponent<MagnetWell>().ClickedOn(leftClick);
-		GameObject.Find ("Character").GetComponent<CharacterPhysics> ().AddWell(newMagnetWell.GetComponent<MagnetWell>());
 	}
 	
 	void LaunchUpdate() {
@@ -127,10 +127,10 @@ public class StateControl : MonoBehaviour {
 				return	;
 			}	
 		}
-		if (magneticPower > 0.1f) {
+		if (magneticPower < -0.1f) {
 			magneticStrengthUIImage.GetComponentInChildren<Text>().text = "+";
 			magneticStrengthUIImage.color = Color.blue;
-		} else if (magneticPower < -0.1f) {
+		} else if (magneticPower > 0.1f) {
 			magneticStrengthUIImage.GetComponentInChildren<Text>().text = "-";
 			magneticStrengthUIImage.color = Color.red;
 		} else {
@@ -154,13 +154,14 @@ public class StateControl : MonoBehaviour {
 		}
 	}
 
-	public void EndWin() {
+	public void EndWin(string destinationScene) {
 		if (state != State.gameover) {
 			state = State.gameover;
 			levelWon = true;
 			GameObject screen = (GameObject) Instantiate (Resources.Load("Prefabs/GameOverCanvas"));
 			screen.BroadcastMessage("GameWin");
 			PrintBestScore();
+			destinationLevel = destinationScene;
 		}
 	}
 

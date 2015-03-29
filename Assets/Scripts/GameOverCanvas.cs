@@ -1,21 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameOverCanvas : MonoBehaviour {
-
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
+public class GameOverCanvas : MonoBehaviour {	
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyDown ("space")) {
-			Debug.Log ("Space");
-			StateControl.BroadcastAll("RestoreState", null);
-			Object.Destroy(this.gameObject);
-
+			if (StateControl.levelWon) {
+				Application.LoadLevel(StateControl.main.destinationLevel);
+			} else {
+				StateControl.BroadcastAll("RestoreState", null);
+				Object.Destroy(this.gameObject);
+			}
 		}
 	}
 

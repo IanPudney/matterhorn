@@ -35,4 +35,9 @@ public class MagneticNodeCounter : MonoBehaviour {
 	public int getMagneticNodes() {
 		return magneticNodes;
 	}
+	
+	public void removeNode() {
+		--magneticNodes;
+		GetComponent<Text>().text = magneticNodes.ToString() + "/" + maxNodes.ToString();
+	}
 }

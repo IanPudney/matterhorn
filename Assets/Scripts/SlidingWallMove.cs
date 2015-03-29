@@ -7,6 +7,7 @@ public class SlidingWallMove : MonoBehaviour {
 	public GameObject endpieceOne;
 	public GameObject endpieceTwo;
 	public float velocity = 3f;
+	private float initialVelocity;
 	public float height = 2f;
 	public float travel = 10f;
 	public float startPosition = 5f;
@@ -21,6 +22,7 @@ public class SlidingWallMove : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		initialVelocity = velocity;
 		if (wallRigidBody == null) {
 			wallRigidBody = wall.GetComponent<Rigidbody>();
 		}
@@ -42,6 +44,7 @@ public class SlidingWallMove : MonoBehaviour {
 	void RestoreState() {
 		velocityVector = Vector3.zero;
 		wall.transform.localPosition = backupPosition;
+		velocity = initialVelocity;
 	}
 
 	void setHeight(float height) {
