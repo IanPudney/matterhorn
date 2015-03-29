@@ -5,6 +5,8 @@ using UnityEngine.UI;
 public class MagneticNodeCounter : MonoBehaviour {
 	public int maxNodes = 5;
 	int magneticNodes;
+	public AudioClip errorNoise;
+	bool playErrorNoise = false;
 	
 	void Start () {
 		magneticNodes = 0;
@@ -21,7 +23,17 @@ public class MagneticNodeCounter : MonoBehaviour {
 			}
 			return true;
 		} else {
+			playErrorNoise = true;
 			return false;
+		}
+	}
+	
+	void Update() {
+		if (playErrorNoise){
+			if (!NodeRemovalHandler.clicked) {
+				AudioSource.PlayClipAtPoint(errorNoise,Camera.main.transform.position);
+			}
+			playErrorNoise = false;	
 		}
 	}
 	
