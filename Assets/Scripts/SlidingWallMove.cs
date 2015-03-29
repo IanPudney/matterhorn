@@ -80,7 +80,6 @@ public class SlidingWallMove : MonoBehaviour {
 	}
 
 	public void ReverseDirection() {
-		Debug.Log ("Direction Reverse");
 		velocity *= -1;
 		velocityVector *= -1;
 	}

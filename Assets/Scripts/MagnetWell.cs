@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class MagnetWell : MonoBehaviour {
@@ -111,7 +111,7 @@ public class MagnetWell : MonoBehaviour {
 			}
 		}
 		draggingAny = false;
-		NodeRemovalHandler nrh = FindObjectOfType<NodeRemovalHandler>();
+		UtilityButton nrh = FindObjectOfType<UtilityButton>();
 		if (Mathf.Abs(Input.mousePosition.x - nrh.transform.position.x)
 				< nrh.GetComponent<RectTransform>().sizeDelta.x / 2
 		    	&& Mathf.Abs(Input.mousePosition.y - nrh.transform.position.y)
