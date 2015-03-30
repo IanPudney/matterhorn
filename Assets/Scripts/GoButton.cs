@@ -3,12 +3,8 @@ using System.Collections;
 
 public class GoButton : MonoBehaviour {
 	public static bool goButtonDown = false;
-	static int loops = 0;
-	// Use this for initialization
-	void Start () {
-	}
+	//static int loops = 0;
 	
-	// Update is called once per frame
 	void Update () {
 		goButtonDown = false;
 	}
