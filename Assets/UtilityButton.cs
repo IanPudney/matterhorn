@@ -27,11 +27,11 @@ public class UtilityButton : MonoBehaviour {
 		if (MagnetWell.draggingAny) {
 			GetComponent<Image>().sprite = trashcan;
 			GetComponentInChildren<Text>().enabled = false;
-			GetComponent<RectTransform>().sizeDelta = new Vector2(26, 40);
+			GetComponent<RectTransform>().sizeDelta = new Vector2(65, 100);
 		} else {
 			GetComponent<Image>().sprite = button;
 			GetComponentInChildren<Text>().enabled = true;
-			GetComponent<RectTransform>().sizeDelta = new Vector2(280, 40);
+			GetComponent<RectTransform>().sizeDelta = new Vector2(300, 100);
 		}
 	}
 	
