@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ModSelector : MonoBehaviour {
 
-	// Use this for initialization
+/*	// Use this for initialization
 	void Start () {
 		var info = new DirectoryInfo("mods/");
 		var fileInfo = info.GetFiles();
@@ -31,6 +31,6 @@ public class ModSelector : MonoBehaviour {
 	void Update () {
 	
 	}
-
+*/
 
 }
