@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEditor;
 
 public class LevelBorder : MonoBehaviour {
 	public int height;
@@ -74,22 +73,5 @@ public class LevelBorder : MonoBehaviour {
 		cornerObj.transform.position = new Vector3(10*width-.926f, -4.34f, 0) + transform.position;
 		cornerObj.transform.Rotate (0, 0, 270f);
 		cornerObj.transform.parent = gameObject.transform;
-	}
-}
-
-[CustomEditor(typeof(LevelBorder))]
-public class LevelBorderEditor : Editor
-{
-	public override void OnInspectorGUI()
-	{
-		DrawDefaultInspector();
-		
-		LevelBorder myScript = (LevelBorder)target;
-		if (GUILayout.Button ("Bake")) {
-			myScript.Bake ();
-		}
-		if (GUI.changed) {
-			myScript.Bake();
-		}
 	}
 }
