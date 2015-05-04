@@ -3,8 +3,10 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.EventSystems;
 
-public class CannonLeverButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
+public class CannonRotationButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
+	[HideInInspector]
 	public float minAngle;
+	[HideInInspector]
 	public float maxAngle;
 
 	bool mouseIsOver = false;

@@ -11,6 +11,7 @@ public class StateControl : MonoBehaviour {
 
 	public GameObject magnetWellPrefab;
 	public GameObject CannonLeverButtonPrefab;
+	public GameObject CannonLaunchButtonPrefab;
 
 	static bool _nodePlacementInverted;
 
