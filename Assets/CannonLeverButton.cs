@@ -26,10 +26,8 @@ public class CannonLeverButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
 		}
 		
 		if (!mouseIsDragging && Input.GetMouseButton(0) && mouseIsOver) {
-			print ("Dragging!");
 			mouseIsDragging = true;
 		} else if (mouseIsDragging && !Input.GetMouseButton(0)) {
-			print ("Released!");
 			mouseIsDragging = false;
 		}
 	}
@@ -50,7 +48,6 @@ public class CannonLeverButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
 		Vector3 direction = (mousePos - cannonTransform.position).normalized;
 		Debug.DrawRay(cannonTransform.position, direction * 5f);
 		float angle = Mathf.Atan2(direction.y, direction.x) * (180f / Mathf.PI) + 90f;
-		print (angle);
 		cannonTransform.eulerAngles = new Vector3(0, 0, angle);
 	}
 }
