@@ -13,4 +13,8 @@ public class LevelSelect : MonoBehaviour {
 	void Custom() {
 		Application.LoadLevel ("_CustomLevel");
 	}
+
+	void Remoting() {
+		Application.LoadLevel ("Remote");
+	}
 }

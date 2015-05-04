@@ -126,7 +126,12 @@ public class StateControl : MonoBehaviour {
 			}
 		}
 		EventSystem system = EventSystem.current;
-		if (!system.IsPointerOverGameObject()/*eventSystem.GetComponent<StandaloneInputModule> ().IsPointerOverGameObject (-1)*/) {
+		bool touchOutOfBounds = false;
+		touchOutOfBounds = system.IsPointerOverGameObject (-1);
+		foreach (Touch touch in Input.touches) {
+			touchOutOfBounds = touchOutOfBounds || system.IsPointerOverGameObject(touch.fingerId);
+		}
+		if (!touchOutOfBounds) {
 			if (Input.GetMouseButtonDown(0)) {
 				DrawClick(!nodePlacementInverted);
 			} else if (Input.GetMouseButtonDown(1)) {
