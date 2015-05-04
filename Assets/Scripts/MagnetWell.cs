@@ -111,13 +111,5 @@ public class MagnetWell : MonoBehaviour {
 			}
 		}
 		draggingAny = false;
-		UtilityButton nrh = FindObjectOfType<UtilityButton>();
-		if (Mathf.Abs(Input.mousePosition.x - nrh.transform.position.x)
-				< nrh.GetComponent<RectTransform>().sizeDelta.x / 2
-		    	&& Mathf.Abs(Input.mousePosition.y - nrh.transform.position.y)
-		    	< nrh.GetComponent<RectTransform>().sizeDelta.y / 2) {
-			Destroy(this.gameObject);
-			FindObjectOfType<MagneticNodeCounter>().removeNode();
-		}
 	}
 }
