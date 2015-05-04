@@ -4,8 +4,8 @@ using System.Collections;
 using UnityEngine.EventSystems;
 
 public class CannonLeverButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
-	public float minAngle = 0f;
-	public float maxAngle = 360f;
+	public float minAngle;
+	public float maxAngle;
 
 	bool mouseIsOver = false;
 	bool mouseIsDragging = false;
@@ -21,23 +21,24 @@ public class CannonLeverButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
 		if (cannonTransform == null) {
 			return;
 		}
+		
+		if (Input.GetMouseButtonDown(0) && mouseIsOver) {
+			mouseIsDragging = true;
+		} else if (Input.GetMouseButtonUp(0)) {
+			mouseIsDragging = false;
+		}
+		
 		if (mouseIsDragging) {
 			FollowMouse();
 		}
-		
-		if (!mouseIsDragging && Input.GetMouseButton(0) && mouseIsOver) {
-			mouseIsDragging = true;
-		} else if (mouseIsDragging && !Input.GetMouseButton(0)) {
-			mouseIsDragging = false;
-		}
 	}
 	
-	public void OnPointerEnter(PointerEventData mouseData){
+	public void OnPointerEnter(PointerEventData mouseData) {
 		mouseIsOver = true;
 	}
 
-	public void OnPointerExit(PointerEventData mouseData){
-		mouseIsOver = true;
+	public void OnPointerExit(PointerEventData mouseData) {
+		mouseIsOver = false;
 	}
 	
 	void FollowMouse() {
@@ -47,7 +48,18 @@ public class CannonLeverButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
 		}
 		Vector3 direction = (mousePos - cannonTransform.position).normalized;
 		Debug.DrawRay(cannonTransform.position, direction * 5f);
-		float angle = Mathf.Atan2(direction.y, direction.x) * (180f / Mathf.PI) + 90f;
+		float angle = Mathf.Atan2(direction.y, direction.x) * (180f / Mathf.PI);
+		
+		angle %= 360f;
+		while (angle < 0f) {
+			angle += 360f;
+		}
+		
+		if (angle < minAngle || angle > maxAngle) {
+			Debug.Log("Angle exceeded!  Angle " + angle + " Min " + minAngle + " Max " + maxAngle);
+			return;
+		}
+		
 		cannonTransform.eulerAngles = new Vector3(0, 0, angle);
 	}
 }
