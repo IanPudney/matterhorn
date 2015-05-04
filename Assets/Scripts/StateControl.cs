@@ -2,9 +2,22 @@
 using System.Collections;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
+using UnityEngine.EventSystems;
 
 public class StateControl : MonoBehaviour {
 	public static StateControl main;
+	GameObject eventSystem;
+	static bool _nodePlacementInverted;
+
+	public static bool nodePlacementInverted {
+		get {
+			return _nodePlacementInverted;
+		}
+		protected set {
+			_nodePlacementInverted = value;
+		}
+	}
+
 	[HideInInspector]
 	public int currentRoom;
 
@@ -32,10 +45,16 @@ public class StateControl : MonoBehaviour {
 	
 	void Start () {
 		main = this;
+		nodePlacementInverted = false;
 		magneticPower = magneticPowerStart;
 		state = State.drawing;
 		levelWon = false;
 		PrintBestScore();
+
+		if (eventSystem == null) {
+			eventSystem = GameObject.Find ("EventSystem");
+		}
+
 	}
 
 	public static void BroadcastAll(string fun, System.Object msg) {
@@ -90,10 +109,13 @@ public class StateControl : MonoBehaviour {
 				return;
 			}
 		}
-		if (Input.GetMouseButtonDown(0)) {
-			DrawClick(true);
-		} else if (Input.GetMouseButtonDown(1)) {
-			DrawClick(false);	
+		EventSystem system = EventSystem.current;
+		if (!system.IsPointerOverGameObject()/*eventSystem.GetComponent<StandaloneInputModule> ().IsPointerOverGameObject (-1)*/) {
+			if (Input.GetMouseButtonDown(0)) {
+				DrawClick(!nodePlacementInverted);
+			} else if (Input.GetMouseButtonDown(1)) {
+				DrawClick(nodePlacementInverted);	
+			}
 		}
 	}
 	
@@ -203,5 +225,9 @@ public class StateControl : MonoBehaviour {
 		foreach (AudioSource source in sources) {
 			source.mute = !source.mute;
 		}
+	}
+
+	static public void InvertNodePlacement() {
+		nodePlacementInverted = !nodePlacementInverted;
 	}
 }
