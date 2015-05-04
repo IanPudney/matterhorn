@@ -15,6 +15,14 @@ public class CharacterPhysics : MonoBehaviour {
 	
 	public float volumeScale = 50f;
 	
+	//Cannon handler
+	bool isInCannon = false;
+	[HideInInspector]
+	public bool isLaunching = false;
+	Vector3 cannonCenter;
+	float launchTimeRemaining;
+	Vector3 launchForce;
+	
 	void Start () {
 		if (characterRigidbody == null) {
 			characterRigidbody = GetComponent<Rigidbody>();
@@ -43,7 +51,13 @@ public class CharacterPhysics : MonoBehaviour {
 	}
 	
 	void FixedUpdate () {
-		UpdateTrajectory();
+		if (!isInCannon && !isLaunching) {
+			UpdateTrajectory();
+		} else if (isLaunching) {
+			LaunchFromCannon();
+		} else if (isInCannon) {
+			MoveToCannonCenter();
+		}
 		UpdateColor();
 	}
 	
@@ -69,6 +83,12 @@ public class CharacterPhysics : MonoBehaviour {
 		GetComponent<AudioSource>().volume = volume / volumeScale;
 	}
 	
+	void MoveToCannonCenter() {	
+		Vector3 displacement = cannonCenter - transform.position;
+		GetComponent<Rigidbody>().AddForce(displacement.normalized * 30f);
+		GetComponent<Rigidbody>().velocity *= (1f - 5f * Time.deltaTime);
+	}
+	
 	void UpdateColor() {
 		Color newColor;
 		if (StateControl.magneticPower < 0f) {
@@ -79,5 +99,27 @@ public class CharacterPhysics : MonoBehaviour {
 			newColor = new Color(1, offColor, offColor);
 		}
 		GetComponentInChildren<ParticleSystem>().startColor = newColor;
+	}
+	
+	public void EnterCannon(Vector3 cannonPosition) {
+		GetComponent<AudioSource>().volume = 0;
+		cannonCenter = cannonPosition;
+		isInCannon = true;
+	}
+	
+	public void StartLaunchFromCannon(Vector3 force, float launchTime) {
+		isInCannon = false;
+		isLaunching = true;
+		launchForce = force;
+		launchTimeRemaining = launchTime;
+		GetComponent<Rigidbody>().velocity = Vector3.zero;
+	}
+	
+	void LaunchFromCannon() {
+		GetComponent<Rigidbody>().AddForce(launchForce);
+		launchTimeRemaining -= Time.fixedDeltaTime;
+		if (launchTimeRemaining < 0f) {
+			isLaunching = false;
+		}
 	}
 }
