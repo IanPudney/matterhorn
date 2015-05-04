@@ -3,10 +3,15 @@ using System.Collections;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
 using UnityEngine.EventSystems;
+using System;
 
 public class StateControl : MonoBehaviour {
 	public static StateControl main;
 	GameObject eventSystem;
+
+	public GameObject magnetWellPrefab;
+	public GameObject CannonLeverButtonPrefab;
+
 	static bool _nodePlacementInverted;
 
 	public static bool nodePlacementInverted {
@@ -17,7 +22,6 @@ public class StateControl : MonoBehaviour {
 			_nodePlacementInverted = value;
 		}
 	}
-
 	[HideInInspector]
 	public int currentRoom;
 
@@ -29,18 +33,26 @@ public class StateControl : MonoBehaviour {
 	public static State state;
 
 	public static float magneticPower;
+	[HideInInspector]
 	public float magneticPowerStart;
+	[HideInInspector]
 	public Text magneticDisplay;
-
-	public GameObject magnetWellPrefab;
+	
+	[HideInInspector]
 	public static bool polarityIsPositive;
 
+	[HideInInspector]
 	public Image magneticStrengthUIImage;
+	[HideInInspector]
 	public Text magneticPolarityUIText;
+	[HideInInspector]
 	public Image magneticPolarityUIImage;
 	
+	[HideInInspector]
 	public MagneticNodeCounter magneticNodeCounter;
+	[HideInInspector]
 	public static bool levelWon = false;
+	[HideInInspector]
 	public string destinationLevel;
 	
 	void Start () {
@@ -203,9 +215,18 @@ public class StateControl : MonoBehaviour {
 			GameObject.FindGameObjectWithTag("RecordText").GetComponent<Text>().text = "";
 			return;
 		}
-		currentRoom = int.Parse(regex);
+		try {
+			currentRoom = int.Parse(regex);
+		} catch (FormatException) {
+			currentRoom = int.MaxValue;
+		}
 		GameObject.FindGameObjectWithTag("LevelText").GetComponent<Text>().text = "Level " + regex;
-		int record = PlayerPrefs.GetInt(regex);
+		int record;
+		try {
+			record = PlayerPrefs.GetInt(regex);
+		} catch (FormatException) {
+			record = 0;
+		}
 		if (record == 0) {
 				GameObject.FindGameObjectWithTag("RecordText").GetComponent<Text>().text
 				= "Not yet beaten";
