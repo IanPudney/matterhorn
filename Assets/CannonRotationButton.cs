@@ -57,9 +57,15 @@ public class CannonRotationButton : MonoBehaviour, IPointerEnterHandler, IPointe
 			angle += 360f;
 		}
 		
+		float distFromMin = Mathf.Min (Mathf.Abs (angle + 360f - minAngle), Mathf.Abs(angle - minAngle), Mathf.Abs (angle - 360f - minAngle));
+		float distFromMax = Mathf.Min (Mathf.Abs (angle + 360f - maxAngle), Mathf.Abs(angle - maxAngle), Mathf.Abs (angle - 360f - maxAngle));
 		if (angle < minAngle || angle > maxAngle) {
 			Debug.Log("Angle exceeded!  Angle " + angle + " Min " + minAngle + " Max " + maxAngle);
-			return;
+			if (distFromMin < distFromMax) {
+				angle = minAngle;
+			} else {
+				angle = maxAngle;
+			}
 		}
 		
 		cannonTransform.eulerAngles = new Vector3(0, 0, angle);

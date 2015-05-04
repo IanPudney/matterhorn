@@ -112,6 +112,7 @@ public class CharacterPhysics : MonoBehaviour {
 		isLaunching = true;
 		launchForce = force;
 		launchTimeRemaining = launchTime;
+		GetComponent<Rigidbody>().velocity = Vector3.zero;
 	}
 	
 	void LaunchFromCannon() {
