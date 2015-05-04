@@ -120,7 +120,6 @@ public class CharacterPhysics : MonoBehaviour {
 		launchTimeRemaining -= Time.fixedDeltaTime;
 		if (launchTimeRemaining < 0f) {
 			isLaunching = false;
-			print ("done");
 		}
 	}
 }

@@ -3,8 +3,9 @@ using System.Collections;
 
 public class CannonCore : MonoBehaviour {
 	GameObject cannonLaunchButton;
-	float force = 20f;
-	float launchTime = 0.25f;
+	ParticleSystem readyEffect, launchEffect;
+	float force = 5f;
+	float launchTime = 1f;
 	
 	bool hasPlayer = false;
 	CharacterPhysics player;
@@ -17,12 +18,22 @@ public class CannonCore : MonoBehaviour {
 		cannonLaunchButton.transform.localScale = Vector3.one;
 		CannonLaunchButton clb = cannonLaunchButton.GetComponent<CannonLaunchButton>();
 		clb.cannonCore = this;
+		ParticleSystem[] systems = GetComponentsInChildren<ParticleSystem>();
+		readyEffect = systems[0];
+		readyEffect.enableEmission = true;
+		launchEffect = systems[1];
+		launchEffect.enableEmission = false;
 	}
 	
 	void Update() {
 		Vector3 buttonBase = RectTransformUtility.WorldToScreenPoint(Camera.main, transform.position);
 		cannonLaunchButton.transform.position = buttonBase + Vector3.forward;
 		cannonLaunchButton.transform.rotation = transform.parent.rotation;
+		if (player != null && !hasPlayer && !player.isLaunching) {
+			player = null;
+			readyEffect.enableEmission = true;
+			launchEffect.enableEmission = false;
+		}
 	}
 	
 	void OnTriggerEnter(Collider other) {
@@ -43,5 +54,7 @@ public class CannonCore : MonoBehaviour {
 		}
 		player.StartLaunchFromCannon(transform.right * force, launchTime);
 		hasPlayer = false;
+		readyEffect.enableEmission = false;
+		launchEffect.enableEmission = true;
 	}
 }
