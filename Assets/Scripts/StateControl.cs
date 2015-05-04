@@ -55,8 +55,11 @@ public class StateControl : MonoBehaviour {
 	[HideInInspector]
 	public string destinationLevel;
 	
-	void Start () {
+	void Awake() {
 		main = this;
+	}
+	
+	void Start () {
 		nodePlacementInverted = false;
 		magneticPower = magneticPowerStart;
 		state = State.drawing;

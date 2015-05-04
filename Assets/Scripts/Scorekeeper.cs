@@ -21,7 +21,9 @@ public class Scorekeeper : MonoBehaviour {
 	
 	public static void UpdateScores(int index, int score) {
 		scoreText = "Nodes Used: " + score;
-		if (HighScores[index] > score) {
+		if (HighScores.Count < index) {
+			scoreText = "Level number invalid!";
+		} else if (HighScores[index] > score) {
 			HighScores[index] = score;
 			if (score == 1) {
 				scoreText = "You have beaten the old record (" + HighScores[index] + ") using"
