@@ -9,6 +9,7 @@ public class CannonLever : MonoBehaviour {
 		cannonLeverButton = Instantiate(StateControl.main.CannonLeverButtonPrefab) as GameObject;
 		cannonLeverButton.transform.SetParent(StateControl.main.transform);
 		cannonLeverButton.transform.localScale = Vector3.one;
+		cannonLeverButton.GetComponent<CannonLeverButton>().cannonTransform = transform.parent;
 	}
 	
 	// Update is called once per frame
