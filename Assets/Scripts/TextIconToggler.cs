@@ -4,20 +4,25 @@ using UnityEngine.UI;
 
 public class TextIconToggler : MonoBehaviour {
 	public string drawingName;
+	public Sprite drawingSprite;
 	public string launchingName;
+	public Sprite launchingSprite;
 
 	//todo: add icon support
 
 	void Start () {
-		gameObject.GetComponent<Text>().text = drawingName;
+		gameObject.GetComponentInChildren<Text> ().text = drawingName;
+		gameObject.GetComponent<Image> ().overrideSprite = drawingSprite;
 	}
 	
 	void OnGameStart() {
-		gameObject.GetComponent<Text>().text = launchingName;
+		gameObject.GetComponentInChildren<Text> ().text = drawingName;
+		gameObject.GetComponent<Image> ().overrideSprite = launchingSprite;
 	}
 
 	void RestoreState() {
-		gameObject.GetComponent<Text>().text = drawingName;
+		gameObject.GetComponentInChildren<Text> ().text = drawingName;
+		gameObject.GetComponent<Image> ().overrideSprite = drawingSprite;
 	}
 
 
